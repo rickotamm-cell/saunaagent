@@ -1,0 +1,148 @@
+<!DOCTYPE html>rega
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — SaunaAgent™</title>
+<meta name="description" content="Technical articles on Finnish sauna construction. Vapour barriers, ventilation, heater sizing, timber selection — written from field experience, not forum posts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Syne:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #161410; --birch: #F5EFE4; --birch-mid: #EDE4D4;
+    --ash: #9E9186; --ember: #C4521A; --ember-dk: #A34010;
+    --steam: #F9F5EF; --rule: rgba(22,20,16,0.1); --rule-lt: rgba(22,20,16,0.055);
+    --text-body: #2E2A25; --text-muted: #7A7168;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--steam); color: var(--text-body); font-family: 'Newsreader', Georgia, serif; font-size: 18px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+
+  /* NAV */
+  .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 58px; display: flex; align-items: center; background: var(--ink); box-shadow: 0 1px 0 rgba(255,255,255,0.06); }
+  .site-nav__inner { max-width: 1120px; margin: 0 auto; padding: 0 2.5rem; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+  .site-nav__brand { font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--birch); text-decoration: none; white-space: nowrap; }
+  .site-nav__links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+  .site-nav__links a { font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,239,228,0.6); text-decoration: none; transition: color 0.2s; }
+  .site-nav__links a:hover, .site-nav__links a.active { color: var(--birch); }
+  .site-nav__cta { font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--birch) !important; background: var(--ember); padding: 0.55rem 1.1rem; border-radius: 2px; text-decoration: none; transition: background 0.2s; white-space: nowrap; }
+  .site-nav__cta:hover { background: var(--ember-dk) !important; }
+
+  /* PAGE HEADER */
+  .page-header { background: var(--ink); padding: 7rem 0 4.5rem; border-bottom: 3px solid var(--ember); margin-top: 58px; }
+  .page-header__inner { max-width: 860px; margin: 0 auto; padding: 0 2.5rem; }
+  .page-header__label { font-family: 'Syne', sans-serif; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ember); display: block; margin-bottom: 1.25rem; }
+  .page-header__title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: var(--birch); line-height: 1.1; margin-bottom: 1.25rem; }
+  .page-header__desc { font-size: 1rem; line-height: 1.8; color: rgba(245,239,228,0.55); max-width: 560px; }
+
+  /* ARTICLES GRID */
+  .articles-section { max-width: 860px; margin: 0 auto; padding: 4rem 2.5rem 7rem; }
+
+  .articles-grid { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--rule); }
+
+  .article-card { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: start; padding: 2.5rem; border-bottom: 1px solid var(--rule); text-decoration: none; color: inherit; transition: background 0.2s; }
+  .article-card:last-child { border-bottom: none; }
+  .article-card:hover { background: rgba(196,82,26,0.03); }
+
+  .article-card__meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.85rem; flex-wrap: wrap; }
+  .article-card__tag { font-family: 'Syne', sans-serif; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ember); }
+  .article-card__dot { width: 3px; height: 3px; border-radius: 50%; background: var(--ash); display: inline-block; }
+  .article-card__date { font-family: 'Syne', sans-serif; font-size: 0.6rem; letter-spacing: 0.08em; color: var(--text-muted); }
+  .article-card__read { font-family: 'Syne', sans-serif; font-size: 0.6rem; letter-spacing: 0.08em; color: var(--text-muted); }
+
+  .article-card__title { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--ink); line-height: 1.2; margin-bottom: 0.75rem; letter-spacing: -0.01em; }
+  .article-card__excerpt { font-size: 0.9rem; line-height: 1.72; color: var(--text-muted); max-width: 520px; }
+
+  .article-card__arrow { font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ember); white-space: nowrap; margin-top: 0.5rem; align-self: center; }
+
+  /* FOOTER */
+  .footer { background: var(--ink); padding: 2.75rem 0; }
+  .footer__inner { max-width: 1120px; margin: 0 auto; padding: 0 2.5rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .footer__brand { font-family: 'Syne', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(240,232,216,0.45); }
+  .footer__links { display: flex; gap: 1.5rem; align-items: center; }
+  .footer__link { font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,232,216,0.35); text-decoration: none; transition: color 0.2s; }
+  .footer__link:hover { color: var(--ember); }
+
+  @media (max-width: 600px) {
+    .page-header { padding: 5rem 0 3rem; }
+    .articles-section { padding: 2.5rem 1.25rem 5rem; }
+    .article-card { grid-template-columns: 1fr; gap: 1rem; padding: 1.75rem 1.25rem; }
+    .article-card__arrow { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="site-nav__inner">
+    <a href="/" class="site-nav__brand">SaunaAgent™</a>
+    <ul class="site-nav__links">
+      <li><a href="/#contents">What's Inside</a></li>
+      <li><a href="/#who-its-for">Who It's For</a></li>
+      <li><a href="/#about">About</a></li>
+      <li><a href="/blog" class="active">Blog</a></li>
+      <li><a href="/#pricing">Pricing</a></li>
+      <li><a href="/#get-blueprint" class="site-nav__cta">Get the Blueprint</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="page-header__inner">
+    <span class="page-header__label">SaunaAgent™ — Technical Articles</span>
+    <h1 class="page-header__title">Build knowledge.<br>Not problems.</h1>
+    <p class="page-header__desc">Technical articles on Finnish sauna construction — written from field experience across 340+ builds, not assembled from forum posts and intuition.</p>
+  </div>
+</header>
+
+<main class="articles-section">
+  <div class="articles-grid">
+
+    <a href="/blog/sauna-vapour-barrier" class="article-card">
+      <div class="article-card__body">
+        <div class="article-card__meta">
+          <span class="article-card__tag">Structure</span>
+          <span class="article-card__dot"></span>
+          <span class="article-card__date">March 2025</span>
+          <span class="article-card__dot"></span>
+          <span class="article-card__read">7 min read</span>
+        </div>
+        <h2 class="article-card__title">Finnish Sauna Vapour Barrier — The One Rule That Cannot Be Broken</h2>
+        <p class="article-card__excerpt">The vapour barrier goes on the warm side. Without exception. This article explains the physics of why, what happens when it is placed incorrectly, and how to seal it to a professional standard.</p>
+      </div>
+      <span class="article-card__arrow">Read →</span>
+    </a>
+
+    <a href="/blog/sauna-cladding-species" class="article-card">
+      <div class="article-card__body">
+        <div class="article-card__meta">
+          <span class="article-card__tag">Materials</span>
+          <span class="article-card__dot"></span>
+          <span class="article-card__date">March 2025</span>
+          <span class="article-card__dot"></span>
+          <span class="article-card__read">6 min read</span>
+        </div>
+        <h2 class="article-card__title">Why Your Sauna Cladding Should Never Be Pine</h2>
+        <p class="article-card__excerpt">Pine is cheap, widely available, and the most common cladding mistake in UK and European sauna builds. Here is what to use instead, and why resin content at operating temperature is the deciding factor.</p>
+      </div>
+      <span class="article-card__arrow">Read →</span>
+    </a>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <span class="footer__brand">SaunaAgent™ — Professional Blueprint Series</span>
+    <nav class="footer__links">
+      <a href="/terms" class="footer__link">Terms &amp; Conditions</a>
+      <a href="/privacy" class="footer__link">Privacy Policy</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>

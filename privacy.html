@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — SaunaAgent™</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700&family=Syne:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:        #161410;
+    --birch:      #F5EFE4;
+    --birch-mid:  #EDE4D4;
+    --ash:        #9E9186;
+    --ember:      #C4521A;
+    --steam:      #F9F5EF;
+    --rule:       rgba(22,20,16,0.1);
+    --text-body:  #2E2A25;
+    --text-muted: #7A7168;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--steam);
+    color: var(--text-body);
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .nav {
+    background: var(--ink);
+    padding: 1.25rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav__inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav__brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--birch);
+    text-decoration: none;
+  }
+  .nav__back {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(240,232,216,0.45);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav__back:hover { color: var(--ember); }
+
+  .page-header {
+    background: var(--ink);
+    padding: 4rem 0 3.5rem;
+    border-bottom: 3px solid var(--ember);
+  }
+  .page-header__inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  .page-header__label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 0.75rem;
+  }
+  .page-header__title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: var(--birch);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+  .page-header__meta {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    color: rgba(240,232,216,0.35);
+    letter-spacing: 0.06em;
+  }
+
+  .content {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+  }
+
+  .content h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 3rem 0 0.75rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--rule);
+  }
+  .content h2:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .content p {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--text-body);
+    margin-bottom: 1rem;
+  }
+
+  .content ul {
+    margin: 0.5rem 0 1rem 1.4rem;
+  }
+  .content ul li {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-body);
+    margin-bottom: 0.4rem;
+  }
+
+  .content a {
+    color: var(--ember);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .highlight-box {
+    background: var(--birch-mid);
+    border-left: 3px solid var(--ember);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--text-body);
+  }
+
+  .footer {
+    background: var(--ink);
+    padding: 2.5rem 0;
+  }
+  .footer__inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .footer__brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(240,232,216,0.4);
+  }
+  .footer__copy {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    color: rgba(240,232,216,0.2);
+  }
+  .footer__link {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(240,232,216,0.3);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer__link:hover { color: var(--ember); }
+
+  @media (max-width: 640px) {
+    .content { padding: 2.5rem 1.25rem 4rem; }
+    .page-header { padding: 2.5rem 0 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="/" class="nav__brand">SaunaAgent™</a>
+    <a href="/" class="nav__back">← Back to site</a>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="page-header__inner">
+    <p class="page-header__label">Legal</p>
+    <h1 class="page-header__title">Privacy Policy</h1>
+    <p class="page-header__meta">Effective date: 1 March 2025 &nbsp;·&nbsp; Last updated: 1 March 2025</p>
+  </div>
+</header>
+
+<main class="content">
+
+  <h2>1. Who We Are</h2>
+  <p>SaunaAgent™ operates the website saunaagent.co. This policy explains what data we collect, why, and how it is handled. For any privacy-related questions, contact us at <a href="mailto:hello@saunaagent.co">hello@saunaagent.co</a>.</p>
+
+  <h2>2. Data We Collect</h2>
+  <p>We collect only what is necessary to fulfil your purchase:</p>
+  <ul>
+    <li><strong>Email address</strong> — provided at checkout, used to deliver your receipt and product file</li>
+    <li><strong>Payment information</strong> — handled entirely by our payment processor; we do not see or store card details</li>
+    <li><strong>Basic analytics</strong> — aggregated, anonymised data about page visits via Cloudflare (no tracking cookies set by us)</li>
+  </ul>
+  <p>We do not collect names, postal addresses, or any data beyond what is required to process your order.</p>
+
+  <h2>3. How We Use Your Data</h2>
+  <ul>
+    <li>To send your receipt and product download link</li>
+    <li>To respond to support or enquiry emails</li>
+    <li>We do not send marketing emails unless you explicitly opt in</li>
+    <li>We do not sell, share, or rent your data to any third party</li>
+  </ul>
+
+  <h2>4. Data Retention</h2>
+  <p>Your email address is retained for as long as necessary to support your purchase. You may request deletion at any time by emailing <a href="mailto:hello@saunaagent.co">hello@saunaagent.co</a> and we will action it within 30 days.</p>
+
+  <h2>5. Third-Party Services</h2>
+  <ul>
+    <li><strong>Cloudflare</strong> — hosts this website and manages DNS. May process anonymised request data. See <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">cloudflare.com/privacypolicy</a></li>
+    <li><strong>Payment processor</strong> — handles all transaction and billing data as Merchant of Record under their own privacy policy. We do not receive or store card details.</li>
+  </ul>
+
+  <h2>6. Cookies</h2>
+  <div class="highlight-box">
+    saunaagent.co does not use tracking cookies, advertising pixels, or any third-party analytics. Cloudflare may set a strictly necessary technical cookie for security purposes only.
+  </div>
+
+  <h2>7. Your Rights (GDPR)</h2>
+  <p>If you are located in the EU or UK, you have the following rights regarding your personal data:</p>
+  <ul>
+    <li><strong>Access</strong> — request a copy of any data we hold about you</li>
+    <li><strong>Correction</strong> — request that inaccurate data is corrected</li>
+    <li><strong>Deletion</strong> — request that your data is deleted ("right to be forgotten")</li>
+    <li><strong>Objection</strong> — object to processing of your data</li>
+    <li><strong>Portability</strong> — request your data in a portable format</li>
+  </ul>
+  <p>To exercise any of these rights, email <a href="mailto:hello@saunaagent.co">hello@saunaagent.co</a>. We will respond within 30 days.</p>
+
+  <h2>8. Changes to This Policy</h2>
+  <p>We may update this policy from time to time. Any changes will be reflected on this page with an updated effective date. Continued use of the site after changes constitutes acceptance of the updated policy.</p>
+
+  <h2>9. Contact</h2>
+  <p>Privacy enquiries: <a href="mailto:hello@saunaagent.co">hello@saunaagent.co</a></p>
+
+</main>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <span class="footer__brand">SaunaAgent™ — Professional Blueprint Series</span>
+    <a href="/terms" class="footer__link">Terms &amp; Conditions</a>
+    <span class="footer__copy">© 2025 SaunaAgent™. All rights reserved.</span>
+  </div>
+</footer>
+
+</body>
+</html>

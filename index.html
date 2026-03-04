@@ -1,0 +1,2905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaunaAgent™ Blueprint — Build a Finnish Sauna From Zero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Syne:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ===================================================
+     TOKENS & RESET
+  =================================================== */
+  :root {
+    --ink:        #161410;
+    --birch:      #F5EFE4;
+    --birch-mid:  #EDE4D4;
+    --ash:        #9E9186;
+    --ember:      #C4521A;
+    --ember-dk:   #A34010;
+    --pine:       #2B3728;
+    --steam:      #F9F5EF;
+    --rule:       rgba(22,20,16,0.1);
+    --rule-lt:    rgba(22,20,16,0.055);
+    --text-body:  #2E2A25;
+    --text-muted: #7A7168;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { }
+
+  body {
+    background: var(--birch);
+    color: var(--text-body);
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+
+  /* ===================================================
+     TYPOGRAPHY SYSTEM
+  =================================================== */
+  .display {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    line-height: 1.07;
+    letter-spacing: -0.025em;
+  }
+
+  .heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .label {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.67rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .caption {
+    font-family: 'Syne', sans-serif;
+    font-weight: 400;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+  }
+
+  /* ===================================================
+     LAYOUT
+  =================================================== */
+  .wrap         { max-width: 1120px; margin: 0 auto; padding: 0 2.5rem; }
+  .wrap--narrow { max-width: 760px;  margin: 0 auto; padding: 0 2.5rem; }
+  .wrap--mid    { max-width: 940px;  margin: 0 auto; padding: 0 2.5rem; }
+
+  section { padding: 7rem 0; }
+
+  .rule {
+    display: block;
+    width: 3.5rem;
+    height: 1.5px;
+    background: var(--ember);
+    margin: 1.75rem 0;
+  }
+
+  .rule--center { margin-left: auto; margin-right: auto; }
+
+  /* ===================================================
+     HERO
+  =================================================== */
+  /* ===================================================
+     SITE NAV
+  =================================================== */
+  .site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    transition: background 0.35s ease, box-shadow 0.35s ease;
+  }
+  .site-nav.scrolled {
+    background: var(--ink);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .site-nav__inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .site-nav__brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--birch);
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .site-nav__links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+  .site-nav__links a {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(245,239,228,0.6);
+    text-decoration: none;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+  .site-nav__links a:hover { color: var(--birch); }
+  .site-nav__cta {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--birch) !important;
+    background: var(--ember);
+    padding: 0.55rem 1.1rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+  .site-nav__cta:hover {
+    background: var(--ember-dk) !important;
+    color: var(--birch) !important;
+  }
+
+  /* Hamburger */
+  .site-nav__hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
+  .site-nav__hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--birch);
+    transition: all 0.25s;
+    border-radius: 1px;
+  }
+  .site-nav__hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .site-nav__hamburger.open span:nth-child(2) { opacity: 0; }
+  .site-nav__hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Mobile drawer */
+  .site-nav__drawer {
+    display: none;
+    position: fixed;
+    top: 58px;
+    left: 0;
+    right: 0;
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 1.5rem 2rem 2rem;
+    z-index: 199;
+    flex-direction: column;
+    gap: 0;
+  }
+  .site-nav__drawer.open { display: flex; }
+  .site-nav__drawer a {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(245,239,228,0.65);
+    text-decoration: none;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: color 0.2s;
+  }
+  .site-nav__drawer a:hover { color: var(--birch); }
+  .site-nav__drawer a.drawer-cta {
+    color: var(--ember);
+    border-bottom: none;
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 700px) {
+    .site-nav__links { display: none; }
+    .site-nav__hamburger { display: flex; }
+  }
+
+  /* Push hero down so it doesn't hide under fixed nav */
+  .hero { padding-top: calc(58px + 5rem); }
+
+  .hero {
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  /* Subtle wood-grain texture via CSS */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        93deg,
+        transparent 0px,
+        transparent 120px,
+        rgba(255,255,255,0.012) 121px,
+        rgba(255,255,255,0.012) 122px
+      ),
+      repeating-linear-gradient(
+        176deg,
+        transparent 0px,
+        transparent 60px,
+        rgba(255,255,255,0.008) 61px,
+        rgba(255,255,255,0.008) 62px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Warm glow from bottom-left */
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -20%;
+    left: -10%;
+    width: 65%;
+    height: 80%;
+    background: radial-gradient(ellipse at 30% 80%, rgba(196,82,26,0.16) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero__inner {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 2.5rem 7rem;
+    max-width: 1120px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  @media (max-width: 820px) {
+    .hero__inner { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem 5rem; }
+  }
+
+  .hero__eyebrow {
+    color: var(--ember);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero__eyebrow span.label { color: var(--ash); }
+
+  .hero__eyebrow-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--ash);
+    display: inline-block;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(2.6rem, 4.5vw, 4rem);
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    color: #F0E8D8;
+    margin-bottom: 1.75rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: #C4A882;
+  }
+
+  .hero__sub {
+    font-family: 'Newsreader', serif;
+    font-weight: 300;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: rgba(240,232,216,0.62);
+    max-width: 440px;
+    margin-bottom: 2.75rem;
+  }
+
+  .hero__cta-row {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: all 0.22s ease;
+  }
+
+  .btn--primary {
+    background: var(--ember);
+    color: #F0E8D8;
+    padding: 1.05rem 2.6rem;
+  }
+
+  .btn--primary:hover {
+    background: var(--ember-dk);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 28px rgba(196,82,26,0.32);
+  }
+
+  .btn--ghost {
+    background: transparent;
+    color: rgba(240,232,216,0.55);
+    padding: 1.05rem 0;
+    border-bottom: 1px solid rgba(240,232,216,0.2);
+  }
+
+  .btn--ghost:hover { color: rgba(240,232,216,0.85); border-bottom-color: rgba(240,232,216,0.5); }
+
+  .hero__right {
+    padding-top: 1.5rem;
+  }
+
+  .spec-card {
+    border: 1px solid rgba(240,232,216,0.1);
+    padding: 0;
+    background: rgba(240,232,216,0.04);
+  }
+
+  .spec-card__header {
+    padding: 1.25rem 1.75rem;
+    border-bottom: 1px solid rgba(240,232,216,0.08);
+  }
+
+  .spec-card__header .label {
+    color: var(--ash);
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+  }
+
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.85rem 1.75rem;
+    border-bottom: 1px solid rgba(240,232,216,0.07);
+    gap: 1rem;
+  }
+
+  .spec-row:last-child { border-bottom: none; }
+
+  .spec-row__key {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(240,232,216,0.38);
+  }
+
+  .spec-row__val {
+    font-family: 'Newsreader', serif;
+    font-size: 0.9rem;
+    color: rgba(240,232,216,0.72);
+    text-align: right;
+  }
+
+  /* ===================================================
+     CREDIBILITY BAR
+  =================================================== */
+  .cred-bar {
+    background: var(--birch-mid);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 0;
+  }
+
+  .cred-bar__inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    divide: 1;
+  }
+
+  @media (max-width: 720px) {
+    .cred-bar__inner { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .cred-item {
+    padding: 2.25rem 2rem;
+    border-right: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .cred-item:last-child { border-right: none; }
+
+  .cred-item__num {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 2.1rem;
+    line-height: 1;
+    color: var(--ember);
+    letter-spacing: -0.03em;
+  }
+
+  .cred-item__label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.73rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* ===================================================
+     PROBLEM
+  =================================================== */
+  .problem {
+    background: var(--steam);
+    border-top: 1px solid var(--rule-lt);
+  }
+
+  .section-header { margin-bottom: 3.5rem; }
+  .section-header .label { color: var(--ember); }
+
+  .section-header h2 {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    margin-top: 0.9rem;
+    max-width: 620px;
+  }
+
+  .section-header p {
+    margin-top: 1.25rem;
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 580px;
+    line-height: 1.8;
+  }
+
+  .fail-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--rule);
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 860px) { .fail-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .fail-grid { grid-template-columns: 1fr; } }
+
+  .fail-item {
+    padding: 2.25rem 2.25rem 2.5rem;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.2s;
+  }
+
+  .fail-item:hover { background: rgba(196,82,26,0.035); }
+
+  .fail-item__index {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--ash);
+    margin-bottom: 1.1rem;
+    display: block;
+  }
+
+  .fail-item__icon {
+    width: 28px;
+    height: 2px;
+    background: var(--ember);
+    display: block;
+    margin-bottom: 1.1rem;
+  }
+
+  .fail-item h3 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 0.65rem;
+    letter-spacing: -0.01em;
+  }
+
+  .fail-item p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* ===================================================
+     AGITATION
+  =================================================== */
+  .agitation {
+    background: var(--ink);
+    color: #F0E8D8;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .agitation::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -15%;
+    width: 55%;
+    height: 120%;
+    background: radial-gradient(ellipse, rgba(196,82,26,0.09) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .agitation .section-header .label { color: rgba(196,82,26,0.85); }
+
+  .agitation h2 {
+    font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+    color: #F0E8D8;
+    margin-top: 0.9rem;
+    max-width: 620px;
+  }
+
+  .agitation .section-header p {
+    color: rgba(240,232,216,0.52);
+  }
+
+  .cost-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 3rem;
+    border: 1px solid rgba(240,232,216,0.1);
+  }
+
+  .cost-table thead tr {
+    border-bottom: 1px solid rgba(240,232,216,0.12);
+  }
+
+  .cost-table thead th {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(240,232,216,0.3);
+    padding: 1.1rem 1.75rem;
+    text-align: left;
+  }
+
+  .cost-table tbody tr {
+    border-bottom: 1px solid rgba(240,232,216,0.07);
+    transition: background 0.18s;
+  }
+
+  .cost-table tbody tr:hover { background: rgba(240,232,216,0.04); }
+
+  .cost-table tbody td {
+    padding: 1.4rem 1.75rem;
+    font-size: 0.92rem;
+  }
+
+  .cost-table .td-mistake {
+    color: rgba(240,232,216,0.72);
+    font-family: 'Newsreader', serif;
+    line-height: 1.6;
+  }
+
+  .cost-table .td-cost {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ember);
+    white-space: nowrap;
+  }
+
+  .cost-table .td-note {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    color: rgba(240,232,216,0.35);
+    letter-spacing: 0.03em;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 680px) {
+    .cost-table thead { display: none; }
+    .cost-table tbody tr { display: block; padding: 1.25rem 0; border-bottom: 1px solid rgba(240,232,216,0.1); }
+    .cost-table tbody td { display: block; padding: 0.25rem 1.25rem; }
+  }
+
+  .agitation__close {
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid rgba(240,232,216,0.1);
+    font-size: 1rem;
+    color: rgba(240,232,216,0.55);
+    max-width: 640px;
+    line-height: 1.8;
+  }
+
+  .agitation__close strong {
+    color: rgba(240,232,216,0.82);
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  /* ===================================================
+     SOLUTION / INTRO
+  =================================================== */
+  .solution {
+    background: var(--birch);
+    border-top: 1px solid var(--rule-lt);
+  }
+
+  .solution h2 {
+    font-size: clamp(2rem, 3.5vw, 2.9rem);
+    max-width: 620px;
+    margin-top: 0.9rem;
+  }
+
+  .solution__body {
+    max-width: 680px;
+  }
+
+  .solution__body p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.85;
+    margin-bottom: 1.3rem;
+  }
+
+  .pull-quote {
+    border-left: 3px solid var(--ember);
+    padding: 1.25rem 2rem;
+    margin: 2.5rem 0;
+    background: rgba(196,82,26,0.045);
+  }
+
+  .pull-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--ink) !important;
+    line-height: 1.6;
+    margin: 0 !important;
+  }
+
+  .feature-pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--rule);
+    margin-top: 3.5rem;
+  }
+
+  @media (max-width: 720px) { .feature-pillars { grid-template-columns: 1fr; } }
+
+  .pillar {
+    padding: 2rem 2rem 2.25rem;
+    border-right: 1px solid var(--rule);
+  }
+
+  .pillar:last-child { border-right: none; }
+
+  .pillar .label { color: var(--ash); font-size: 0.62rem; margin-bottom: 0.85rem; display: block; }
+
+  .pillar h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.65rem;
+    letter-spacing: -0.01em;
+  }
+
+  .pillar p {
+    font-size: 0.87rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* ===================================================
+     BLUEPRINT CONTENTS
+  =================================================== */
+  .contents {
+    background: var(--steam);
+    border-top: 1px solid var(--rule-lt);
+  }
+
+  .contents h2 {
+    font-size: clamp(2rem, 3.5vw, 2.9rem);
+    max-width: 580px;
+    margin-top: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .contents > .wrap > p {
+    color: var(--text-muted);
+    max-width: 560px;
+    font-size: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .modules {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--rule);
+    gap: 0;
+  }
+
+  @media (max-width: 700px) { .modules { grid-template-columns: 1fr; } }
+
+  .module {
+    padding: 2.25rem 2.5rem 2.5rem;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.2s;
+    position: relative;
+  }
+
+  .module:hover { background: rgba(196,82,26,0.025); }
+
+  .module:nth-child(even) { border-right: none; }
+
+  .module__num {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    color: var(--ember);
+    margin-bottom: 1.1rem;
+    display: block;
+  }
+
+  .module h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.08rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.8rem;
+  }
+
+  .module__desc {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.72;
+    margin-bottom: 1rem;
+  }
+
+  .module__points {
+    list-style: none;
+    margin-top: 0.75rem;
+  }
+
+  .module__points li {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+    padding: 0.28rem 0 0.28rem 1.1rem;
+    position: relative;
+    border-bottom: 1px dotted var(--rule-lt);
+  }
+
+  .module__points li:last-child { border-bottom: none; }
+
+  .module__points li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.85rem;
+    width: 5px;
+    height: 1px;
+    background: var(--ember);
+  }
+
+  /* ===================================================
+     WHO IT'S FOR
+  =================================================== */
+  .audience {
+    background: var(--birch);
+    border-top: 1px solid var(--rule-lt);
+  }
+
+  .audience h2 {
+    font-size: clamp(1.9rem, 3vw, 2.7rem);
+    max-width: 520px;
+    margin-top: 0.9rem;
+  }
+
+  .audience-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 680px) { .audience-grid { grid-template-columns: 1fr; } }
+
+  .audience-col {
+    border: 1px solid var(--rule);
+    padding: 2.25rem 2.25rem 2.5rem;
+  }
+
+  .audience-col__header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--rule-lt);
+  }
+
+  .audience-col__indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .indicator--yes { background: var(--pine); }
+  .indicator--no  { background: #C04B35; }
+
+  .audience-col__header .label { font-size: 0.7rem; }
+  .audience-col--yes .audience-col__header .label { color: var(--pine); }
+  .audience-col--no  .audience-col__header .label { color: #C04B35; }
+
+  .audience-list {
+    list-style: none;
+  }
+
+  .audience-list li {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--text-muted);
+    padding: 0.7rem 0 0.7rem 1.5rem;
+    position: relative;
+    border-bottom: 1px solid var(--rule-lt);
+  }
+
+  .audience-list li:last-child { border-bottom: none; }
+
+  .audience-col--yes .audience-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--pine);
+    font-size: 0.75rem;
+    top: 0.88rem;
+  }
+
+  .audience-col--no .audience-list li::before {
+    content: '×';
+    position: absolute;
+    left: 0;
+    color: #C04B35;
+    font-size: 0.9rem;
+    top: 0.75rem;
+    font-weight: 700;
+  }
+
+  /* ===================================================
+     AUTHORITY
+  =================================================== */
+  .authority {
+    background: var(--ink);
+    color: #F0E8D8;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .authority::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(240,232,216,0.08);
+  }
+
+  .authority .section-header .label { color: rgba(196,82,26,0.85); }
+
+  .authority h2 {
+    font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+    color: #F0E8D8;
+    margin-top: 0.9rem;
+    max-width: 600px;
+  }
+
+  .authority__body {
+    max-width: 660px;
+  }
+
+  .authority__body p {
+    font-size: 1rem;
+    color: rgba(240,232,216,0.58);
+    line-height: 1.82;
+    margin-bottom: 1.2rem;
+  }
+
+  .authority__body strong {
+    color: rgba(240,232,216,0.82);
+    font-weight: 400;
+  }
+
+  .credentials {
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid rgba(240,232,216,0.1);
+  }
+
+  @media (max-width: 700px) { .credentials { grid-template-columns: repeat(2, 1fr); } }
+
+  .cred {
+    padding: 1.75rem 1.75rem;
+    border-right: 1px solid rgba(240,232,216,0.08);
+    border-bottom: 1px solid rgba(240,232,216,0.08);
+  }
+
+  .cred:last-child { border-right: none; }
+
+  .cred__fig {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--ember);
+    display: block;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .cred__text {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: rgba(240,232,216,0.38);
+    line-height: 1.5;
+  }
+
+  /* ===================================================
+     PRICING
+  =================================================== */
+  .pricing {
+    background: var(--steam);
+    padding: 7rem 0;
+    border-top: 1px solid var(--rule-lt);
+  }
+
+  .pricing h2 {
+    font-size: clamp(1.9rem, 3vw, 2.7rem);
+    max-width: 560px;
+    margin-top: 0.9rem;
+  }
+
+  .pricing__comparison {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--rule);
+    margin-top: 3.25rem;
+  }
+
+  @media (max-width: 720px) { .pricing__comparison { grid-template-columns: 1fr; } }
+
+  .price-col {
+    padding: 2.5rem 2.25rem 2.75rem;
+    border-right: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .price-col:last-child { border-right: none; }
+
+  .price-col--featured {
+    background: var(--ink);
+  }
+
+  .price-col__tag {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tag--bad    { background: rgba(192,75,53,0.12); color: #C04B35; }
+  .tag--good   { background: rgba(43,55,40,0.12);  color: var(--pine); }
+  .tag--option { background: rgba(196,82,26,0.12);  color: var(--ember); }
+
+  .price-col--featured .tag--option {
+    background: rgba(196,82,26,0.25);
+    color: #E8896A;
+  }
+
+  .price-col__scenario {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .price-col--featured .price-col__scenario { color: rgba(240,232,216,0.45); }
+
+  .price-col__amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .amount--bad    { color: #C04B35; }
+  .amount--good   { color: var(--pine); }
+  .amount--featured { color: #F0E8D8; }
+
+  .price-col__desc {
+    font-size: 0.86rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-top: 1.1rem;
+  }
+
+  .price-col--featured .price-col__desc { color: rgba(240,232,216,0.48); }
+
+  .pricing__note {
+    margin-top: 2.5rem;
+    padding: 1.5rem 2rem;
+    border: 1px solid var(--rule);
+    background: rgba(196,82,26,0.04);
+    max-width: 640px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+
+  /* ===================================================
+     CTA
+  =================================================== */
+  .cta-section {
+    background: var(--pine);
+    padding: 7.5rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(196,82,26,0.18) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .cta-section__inner { position: relative; z-index: 1; }
+
+  .cta-section .label { color: rgba(240,232,216,0.45); }
+
+  .cta-section h2 {
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    color: #F0E8D8;
+    margin: 1rem auto 1.5rem;
+    max-width: 600px;
+    letter-spacing: -0.03em;
+  }
+
+  .cta-section p {
+    font-family: 'Newsreader', serif;
+    font-size: 1rem;
+    color: rgba(240,232,216,0.55);
+    max-width: 480px;
+    margin: 0 auto 3rem;
+    line-height: 1.8;
+  }
+
+  .cta-section .btn--primary {
+    font-size: 0.82rem;
+    padding: 1.15rem 3.2rem;
+    background: var(--ember);
+    letter-spacing: 0.16em;
+  }
+
+  .cta-section .btn--primary:hover {
+    background: var(--ember-dk);
+  }
+
+  .cta-meta {
+    margin-top: 1.75rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(240,232,216,0.28);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .cta-meta-dot {
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: rgba(240,232,216,0.2);
+    display: inline-block;
+  }
+
+  /* ===================================================
+     FAQ
+  =================================================== */
+  .faq {
+    background: var(--birch);
+    border-top: 1px solid var(--rule-lt);
+  }
+
+  .faq h2 {
+    font-size: clamp(1.9rem, 3vw, 2.6rem);
+    max-width: 520px;
+    margin-top: 0.9rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .faq-list {
+    max-width: 720px;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--rule);
+    padding: 2rem 0;
+  }
+
+  .faq-item:first-child { border-top: 1px solid var(--rule); }
+
+  .faq-item__q {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-bottom: 0.85rem;
+  }
+
+  .faq-item__a {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* ===================================================
+     FOOTER
+  =================================================== */
+  .footer {
+    background: var(--ink);
+    padding: 2.75rem 0;
+  }
+
+  .footer__inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .footer__brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(240,232,216,0.45);
+  }
+
+  .footer__links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .footer__link {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(240,232,216,0.35);
+    text-decoration: none;
+    transition: color 0.2s;
+    padding: 0;
+  }
+  .footer__link:hover { color: var(--ember); }
+
+  /* ── MODALS ───────────────────────────────────────────── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(22,20,16,0.82);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-box {
+    background: var(--steam);
+    max-width: 680px;
+    width: 100%;
+    max-height: 88vh;
+    overflow-y: auto;
+    border-radius: 2px;
+    position: relative;
+    padding: 3rem 3rem 3.5rem;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--ash);
+    line-height: 1;
+    transition: color 0.2s;
+  }
+  .modal-close:hover { color: var(--ink); }
+
+  .modal-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 0.5rem;
+  }
+
+  .modal-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.35rem;
+    line-height: 1.2;
+  }
+
+  .modal-date {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .modal-content h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 1.75rem 0 0.6rem;
+  }
+
+  .modal-content p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-body);
+    margin-bottom: 0.75rem;
+  }
+
+  .modal-content ul {
+    margin: 0.5rem 0 0.75rem 1.25rem;
+  }
+
+  .modal-content ul li {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--text-body);
+    margin-bottom: 0.35rem;
+  }
+
+  @media (max-width: 640px) {
+    .modal-box { padding: 2rem 1.5rem 2.5rem; }
+    .modal-title { font-size: 1.6rem; }
+  }
+
+  /* ===================================================
+     ABOUT
+  =================================================== */
+  .about {
+    background: var(--birch);
+    padding: 7rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  @media (max-width: 760px) { .about__grid { grid-template-columns: 1fr; gap: 3rem; } }
+
+  .about__left .label { color: var(--ember); }
+  .about__left .heading {
+    font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+    margin: 1.25rem 0 1.5rem;
+  }
+  .about__left p {
+    font-size: 0.96rem;
+    line-height: 1.75;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+  .about__contact {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ember);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ember);
+    padding-bottom: 2px;
+    transition: opacity 0.2s;
+  }
+  .about__contact:hover { opacity: 0.7; }
+
+  .about__stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-bottom: 1.5rem;
+  }
+  .about__stat {
+    background: var(--steam);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .about__stat-fig {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .about__stat-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  .about__values {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .about__value {
+    border-left: 2px solid var(--ember);
+    padding-left: 1rem;
+  }
+  .about__value-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ember);
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  .about__value p {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+
+  .testimonials {
+    background: var(--ink);
+    padding: 7rem 0;
+  }
+  .testimonials .section-header .label { color: rgba(196,82,26,0.85); }
+  .testimonials .section-header h2 { color: var(--birch); }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+  }
+  @media (max-width: 860px) { .testimonials-grid { grid-template-columns: 1fr; } }
+
+  .testimonial-card {
+    background: rgba(245,239,228,0.05);
+    border: 1px solid rgba(245,239,228,0.08);
+    border-top: 2px solid var(--ember);
+    padding: 2rem 1.75rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .testimonial-card__quote {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: rgba(245,239,228,0.82);
+    font-style: italic;
+    flex: 1;
+  }
+  .testimonial-card__quote::before {
+    content: '"';
+    font-size: 2.5rem;
+    line-height: 0;
+    vertical-align: -0.6rem;
+    color: var(--ember);
+    margin-right: 0.1em;
+    font-family: 'Playfair Display', serif;
+  }
+  .testimonial-card__meta {
+    border-top: 1px solid rgba(245,239,228,0.08);
+    padding-top: 1rem;
+  }
+  .testimonial-card__name {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--birch);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+  .testimonial-card__role {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.07em;
+    color: var(--ash);
+  }
+  .testimonial-card__stars {
+    color: var(--ember);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ===================================================
+     PREVIEW / SAMPLE
+  =================================================== */
+  .preview {
+    background: var(--birch-mid);
+    padding: 7rem 0;
+  }
+  .preview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+  }
+  @media (max-width: 760px) { .preview-grid { grid-template-columns: 1fr; } }
+
+  .preview-card {
+    background: var(--steam);
+    border: 1px solid var(--rule);
+    padding: 0;
+    overflow: hidden;
+  }
+  .preview-card__header {
+    background: var(--ink);
+    padding: 0.9rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .preview-card__title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(245,239,228,0.5);
+  }
+  .preview-card__page {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    color: var(--ember);
+  }
+  .preview-card__body {
+    padding: 1.75rem;
+  }
+  .preview-card__module {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 0.5rem;
+  }
+  .preview-card__heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 0.85rem;
+  }
+  .preview-card__text {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+  .preview-card__checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .preview-card__checklist li {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+    color: var(--text-body);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+  .preview-card__checklist li::before {
+    content: '■';
+    color: var(--ember);
+    font-size: 0.5rem;
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+  }
+  .preview-card__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+  }
+  .preview-card__table th {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ash);
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--rule);
+    text-align: left;
+  }
+  .preview-card__table td {
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid var(--rule-lt);
+    color: var(--text-body);
+    font-size: 0.82rem;
+    line-height: 1.4;
+    vertical-align: top;
+  }
+  .preview-card__table tr:last-child td { border-bottom: none; }
+  .preview-card__table .td-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--ember);
+    white-space: nowrap;
+  }
+  .preview__note {
+    text-align: center;
+    margin-top: 2.5rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  /* ===================================================
+     GUARANTEE STRIP
+  =================================================== */
+  .guarantee {
+    background: var(--pine);
+    padding: 3rem 0;
+  }
+  .guarantee__inner {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+  .guarantee__badge {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    border: 2px solid rgba(245,239,228,0.3);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+  .guarantee__badge-days {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--birch);
+    line-height: 1;
+  }
+  .guarantee__badge-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,239,228,0.55);
+    line-height: 1.3;
+    text-align: center;
+  }
+  .guarantee__text { flex: 1; min-width: 260px; }
+  .guarantee__text h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--birch);
+    margin-bottom: 0.4rem;
+  }
+  .guarantee__text p {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: rgba(245,239,228,0.6);
+  }
+
+  /* ===================================================
+     EMAIL CAPTURE
+  =================================================== */
+  .email-capture {
+    background: var(--birch-mid);
+    padding: 6rem 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .email-capture__inner {
+    text-align: center;
+  }
+  .email-capture__inner .label { color: var(--ember); }
+  .email-capture__inner .heading {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    margin: 1rem 0 1rem;
+    color: var(--ink);
+  }
+  .email-capture__inner > p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin: 0 auto 2rem;
+  }
+  .email-capture__form {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  /* Override Kit's default form styles to match site */
+  .email-capture__form .formkit-form {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+  .email-capture__form .formkit-input {
+    background: var(--steam) !important;
+    border: 1px solid rgba(22,20,16,0.15) !important;
+    border-radius: 2px !important;
+    font-family: 'Syne', sans-serif !important;
+    font-size: 0.85rem !important;
+    color: var(--ink) !important;
+    padding: 0.85rem 1rem !important;
+  }
+  .email-capture__form .formkit-submit {
+    background: var(--ember) !important;
+    border-radius: 2px !important;
+    font-family: 'Syne', sans-serif !important;
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    transition: background 0.2s !important;
+  }
+  .email-capture__form .formkit-submit:hover {
+    background: var(--ember-dk) !important;
+  }
+
+
+  .featured-article {
+    background: var(--ink);
+    padding: 6rem 0;
+  }
+  .featured-article__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  @media (max-width: 760px) {
+    .featured-article__inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  }
+  .featured-article__left .label { color: rgba(196,82,26,0.85); }
+  .featured-article__left .heading {
+    color: var(--birch);
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    margin: 1.25rem 0 1rem;
+  }
+  .featured-article__left p {
+    font-size: 0.95rem;
+    line-height: 1.72;
+    color: rgba(245,239,228,0.55);
+    margin-bottom: 1.75rem;
+  }
+  .featured-article__link {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ember);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ember);
+    padding-bottom: 2px;
+    transition: opacity 0.2s;
+  }
+  .featured-article__link:hover { opacity: 0.72; }
+
+  .featured-article__card {
+    background: rgba(245,239,228,0.04);
+    border: 1px solid rgba(245,239,228,0.08);
+    border-left: 3px solid var(--ember);
+    padding: 2rem 2rem 1.75rem;
+  }
+  .featured-article__card-tag {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 0.85rem;
+  }
+  .featured-article__card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--birch);
+    margin-bottom: 1.25rem;
+  }
+  .featured-article__card-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    margin-bottom: 1.5rem;
+  }
+  .featured-article__card-list li {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+    color: rgba(245,239,228,0.6);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+  .featured-article__card-list li::before {
+    content: '—';
+    color: var(--ember);
+    flex-shrink: 0;
+  }
+  .featured-article__card-module {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    color: rgba(245,239,228,0.25);
+    display: block;
+    border-top: 1px solid rgba(245,239,228,0.07);
+    padding-top: 1rem;
+  }
+
+  /* ===================================================
+     MOBILE STICKY BUY BAR
+  =================================================== */
+  .sticky-buy {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 190;
+    background: var(--ink);
+    border-top: 2px solid var(--ember);
+    padding: 0.85rem 1.25rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    box-shadow: 0 -4px 24px rgba(22,20,16,0.35);
+  }
+  .sticky-buy__text {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,239,228,0.6);
+  }
+  .sticky-buy__btn {
+    background: var(--ember);
+    color: var(--birch);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.65rem 1.25rem;
+    border-radius: 2px;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .sticky-buy__btn:hover { background: var(--ember-dk); }
+
+  @media (max-width: 700px) {
+    .sticky-buy { display: flex; }
+    body { padding-bottom: 66px; }
+  }
+
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero__inner > * {
+    animation: fadeInUp 0.75s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  .hero__inner > *:nth-child(1) { animation-delay: 0.05s; }
+  .hero__inner > *:nth-child(2) { animation-delay: 0.18s; }
+
+  .hero__left > * { animation: fadeInUp 0.75s cubic-bezier(0.22,1,0.36,1) both; }
+  .hero__left > *:nth-child(1) { animation-delay: 0.08s; }
+  .hero__left > *:nth-child(2) { animation-delay: 0.18s; }
+  .hero__left > *:nth-child(3) { animation-delay: 0.28s; }
+  .hero__left > *:nth-child(4) { animation-delay: 0.38s; }
+
+  /* Scroll-in for later sections */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ===================================================
+     RESPONSIVE MISC
+  =================================================== */
+  @media (max-width: 500px) {
+    .wrap, .wrap--narrow, .wrap--mid { padding: 0 1.25rem; }
+    section { padding: 5rem 0; }
+    .cta-section { padding: 5.5rem 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════
+     SITE NAV
+════════════════════════════════════════════════════ -->
+<nav class="site-nav" id="site-nav">
+  <div class="site-nav__inner">
+    <a href="/" class="site-nav__brand">SaunaAgent™</a>
+    <ul class="site-nav__links">
+      <li><a href="#contents">What's Inside</a></li>
+      <li><a href="#who-its-for">Who It's For</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#get-blueprint" target="_blank" class="site-nav__cta">Get the Blueprint</a></li>
+    </ul>
+    <button class="site-nav__hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="site-nav__drawer" id="nav-drawer">
+  <a href="#contents" onclick="closeDrawer()">What's Inside</a>
+  <a href="#who-its-for" onclick="closeDrawer()">Who It's For</a>
+  <a href="#about" onclick="closeDrawer()">About</a>
+  <a href="/blog" onclick="closeDrawer()">Blog</a>
+  <a href="#pricing" onclick="closeDrawer()">Pricing</a>
+  <a href="#get-blueprint" target="_blank" class="drawer-cta">Get the Blueprint →</a>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="hero__inner">
+    <div class="hero__left">
+      <div class="hero__eyebrow">
+        <span class="label">SaunaAgent<sup>™</sup></span>
+        <span class="hero__eyebrow-dot"></span>
+        <span class="label">Professional Blueprint Series</span>
+      </div>
+
+      <h1>
+        Build a Finnish Sauna<br>
+        <em>That Performs for Decades.</em><br>
+        Not One That Fails in Three.
+      </h1>
+
+      <p class="hero__sub">
+        A complete technical planning system for serious builders. Developed from Nordic construction standards and real-world sauna engineering — not assembled from forum posts and intuition.
+      </p>
+
+      <div class="hero__cta-row">
+        <a href="#get-blueprint" class="btn btn--primary" target="_blank">Download the Blueprint</a>
+        <a href="#contents" class="btn btn--ghost">See What's Inside</a>
+      </div>
+    </div>
+
+    <div class="hero__right">
+      <div class="spec-card">
+        <div class="spec-card__header">
+          <span class="label">Product Specification</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-row__key">Title</span>
+          <span class="spec-row__val">SaunaAgent™ Blueprint</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-row__key">Subtitle</span>
+          <span class="spec-row__val">How to Build a Finnish Sauna From Zero</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-row__key">Format</span>
+          <span class="spec-row__val">PDF + Reference Sheets</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-row__key">Modules</span>
+          <span class="spec-row__val">10 Technical Modules</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-row__key">Standard</span>
+          <span class="spec-row__val">Finnish SFS + Nordic Build Logic</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-row__key">Market</span>
+          <span class="spec-row__val">Europe &amp; United Kingdom</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-row__key">Intended For</span>
+          <span class="spec-row__val">Builders, Developers, Homeowners</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-row__key">Access</span>
+          <span class="spec-row__val">Instant Download</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════
+     CREDIBILITY BAR
+════════════════════════════════════════════════════ -->
+<div class="cred-bar reveal">
+  <div class="cred-bar__inner">
+    <div class="cred-item">
+      <span class="cred-item__num">18+</span>
+      <span class="cred-item__label">Years in the sauna construction industry</span>
+    </div>
+    <div class="cred-item">
+      <span class="cred-item__num">340+</span>
+      <span class="cred-item__label">Real-world sauna builds across Europe</span>
+    </div>
+    <div class="cred-item">
+      <span class="cred-item__num">12</span>
+      <span class="cred-item__label">Countries of documented project experience</span>
+    </div>
+    <div class="cred-item">
+      <span class="cred-item__num">SFS</span>
+      <span class="cred-item__label">Finnish Standards applied throughout the Blueprint</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     PROBLEM
+════════════════════════════════════════════════════ -->
+<section class="problem">
+  <div class="wrap">
+    <div class="section-header reveal">
+      <span class="label">Why Most Builds Fail</span>
+      <h2 class="heading">The internet will teach you what a sauna looks like. It will not teach you how one works.</h2>
+      <span class="rule"></span>
+      <p>Most DIY sauna builds proceed from aesthetics backwards. They start with the visual — the cladding, the bench, the heater — and treat the structure underneath as an afterthought. This is exactly why so many fail. A sauna is a thermally active, high-humidity enclosure. Every layer of its construction must be intentional.</p>
+    </div>
+
+    <div class="fail-grid reveal">
+      <div class="fail-item">
+        <span class="fail-item__index">01 / 06</span>
+        <span class="fail-item__icon"></span>
+        <h3>Incorrect Insulation Layering</h3>
+        <p>Reversed or incomplete insulation sequences create thermal bridges that reduce efficiency and allow progressive moisture infiltration into the wall cavity — often undetectable until the frame is compromised.</p>
+      </div>
+      <div class="fail-item">
+        <span class="fail-item__index">02 / 06</span>
+        <span class="fail-item__icon"></span>
+        <h3>Wrong Ventilation Logic</h3>
+        <p>Poorly positioned supply and exhaust openings destroy the convective heat column. The result is uneven temperatures, stagnant air at bench level, and a sauna that never reaches a functional löyly despite adequate heater output.</p>
+      </div>
+      <div class="fail-item">
+        <span class="fail-item__index">03 / 06</span>
+        <span class="fail-item__icon"></span>
+        <h3>Heater Mis-Sizing</h3>
+        <p>Selecting a heater based on manufacturer wattage claims alone — without calculating for glass area, external wall exposure, ceiling height, and air volume — produces a unit that cannot reach correct operating temperature.</p>
+      </div>
+      <div class="fail-item">
+        <span class="fail-item__index">04 / 06</span>
+        <span class="fail-item__icon"></span>
+        <h3>Moisture and Rot Damage</h3>
+        <p>A vapour barrier installed on the wrong side of the structure traps condensation within the wall assembly. This damage is invisible behind the cladding for 18 to 36 months — and by then, a full internal rebuild is required.</p>
+      </div>
+      <div class="fail-item">
+        <span class="fail-item__index">05 / 06</span>
+        <span class="fail-item__icon"></span>
+        <h3>Fire Risk at the Heater</h3>
+        <p>Insufficient clearances around electric or wood-burning units, incorrect flue routing, or combustible material proximity are the primary causes of sauna fires. These are preventable failures with correct specification at the planning stage.</p>
+      </div>
+      <div class="fail-item">
+        <span class="fail-item__index">06 / 06</span>
+        <span class="fail-item__icon"></span>
+        <h3>Wasted Material and Budget</h3>
+        <p>Without a build sequence and a documented specification list, most projects run 30 to 60 percent over initial estimate through rework, incorrect purchases, and structural corrections — all of which were avoidable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     AGITATION
+════════════════════════════════════════════════════ -->
+<section class="agitation">
+  <div class="wrap--mid">
+    <div class="section-header reveal">
+      <span class="label">The Real Cost of Getting It Wrong</span>
+      <h2 class="heading">Errors in sauna construction do not announce themselves. They compound.</h2>
+      <span class="rule"></span>
+      <p class="section-header" style="color: rgba(240,232,216,0.52); font-size: 1rem; line-height: 1.8; max-width: 600px; margin-top: 0;">Moisture damage behind cladding becomes visible only after it has moved through the insulation and into the structural frame. A ventilation error costs nothing on the day of installation — and thousands to correct once the build is finished and tiled.</p>
+    </div>
+
+    <table class="cost-table reveal">
+      <thead>
+        <tr>
+          <th style="width:40%">Mistake</th>
+          <th style="width:20%">Typical Cost</th>
+          <th>What It Actually Involves</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-mistake">Moisture remediation — full internal strip and rebuild due to vapour barrier failure</td>
+          <td class="td-cost">€3,800–6,200</td>
+          <td class="td-note">Disposal, replacement insulation, new vapour barrier, re-cladding. Labour additional.</td>
+        </tr>
+        <tr>
+          <td class="td-mistake">Heater replacement after incorrect sizing — second purchase and second installation</td>
+          <td class="td-cost">€1,400–2,400</td>
+          <td class="td-note">Wrong unit disposed of. Correct unit sourced, delivered, and wired by a certified electrician.</td>
+        </tr>
+        <tr>
+          <td class="td-mistake">Ventilation correction — re-routing supply and exhaust after tiling is complete</td>
+          <td class="td-cost">€600–1,800</td>
+          <td class="td-note">Tile removal, new penetrations, sealing, re-tiling. Near-impossible without full surface work.</td>
+        </tr>
+        <tr>
+          <td class="td-mistake">Specialist contractor day rate to correct structural errors post-build</td>
+          <td class="td-cost">€650–950/day</td>
+          <td class="td-note">This is the cost of correcting work that should not have occurred. No added value, only remediation.</td>
+        </tr>
+        <tr>
+          <td class="td-mistake">Project delay — rework, re-ordering, re-certification</td>
+          <td class="td-cost">6–14 months</td>
+          <td class="td-note">Average delay recorded across European correction projects. Not including client relationship cost.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="agitation__close reveal">
+      These are not worst-case scenarios. They are the <strong>standard outcomes</strong> of a build that proceeded without a correct technical framework. The materials exist in almost every hardware store. The knowledge of how to use them correctly is what is missing.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     SOLUTION
+════════════════════════════════════════════════════ -->
+<section class="solution">
+  <div class="wrap--narrow">
+    <div class="section-header reveal">
+      <span class="label">The SaunaAgent™ Blueprint</span>
+      <h2 class="heading">This is not a guide. It is a professional planning system in document form.</h2>
+      <span class="rule"></span>
+    </div>
+
+    <div class="solution__body reveal">
+      <p>The SaunaAgent™ Blueprint was developed as a technical decision framework — the kind used by Nordic sauna contractors who plan multiple builds per year and operate to a standard that allows no structural ambiguity on site. Every recommendation has a reason. Every specification is derived from Finnish building logic, thermal physics, and documented project experience across the European market.</p>
+
+      <p>The Blueprint does not replace professional judgment. What it does is transfer the reasoning of experienced sauna engineers into a structured format that a competent builder, developer, or informed homeowner can follow with confidence — and know at each stage why they are making the decision they are making.</p>
+
+      <div class="pull-quote reveal">
+        <p>"The difference between a sauna that lasts thirty years and one that fails in three is not the quality of the timber. It is whether each layer of the wall was placed in the correct order, for the correct reason."</p>
+      </div>
+
+      <p>SaunaAgent™ gives you that reasoning. Documented. Referenced. Ready to apply to your project from day one.</p>
+    </div>
+
+    <div class="feature-pillars reveal">
+      <div class="pillar">
+        <span class="label">Technical Framework</span>
+        <h4>Decision Logic, Not Instructions</h4>
+        <p>Every module explains the why behind each specification — not just what to do, but what happens structurally and thermally if you do otherwise.</p>
+      </div>
+      <div class="pillar">
+        <span class="label">Nordic Standard</span>
+        <h4>Built on Finnish SFS Logic</h4>
+        <p>All specifications are grounded in the Finnish building tradition that has produced functional, durable saunas for generations across the most demanding climates in Europe.</p>
+      </div>
+      <div class="pillar">
+        <span class="label">European Scope</span>
+        <h4>Indoor, Outdoor, New-Build, Conversion</h4>
+        <p>The Blueprint covers the full range of build contexts encountered across the UK and European market, with specific guidance for each scenario.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     BLUEPRINT CONTENTS
+════════════════════════════════════════════════════ -->
+<section class="contents" id="contents">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="label">Inside the Blueprint</span>
+      <h2 class="heading">Ten Technical Modules. One Complete Planning System.</h2>
+      <span class="rule"></span>
+      <p>Each module addresses a discrete phase of the sauna planning and build process. Read in sequence for a new project, or consult by module for a specific decision mid-build.</p>
+    </div>
+
+    <div class="modules reveal">
+
+      <div class="module">
+        <span class="module__num">Module 01</span>
+        <h3>Wall Structure Logic</h3>
+        <p class="module__desc">The correct construction sequence for thermally efficient, moisture-resistant sauna walls — for both timber frame new-builds and internal conversion scenarios.</p>
+        <ul class="module__points">
+          <li>Layer-by-layer build sequence with structural rationale for each</li>
+          <li>Timber frame versus masonry substrate: decision criteria</li>
+          <li>Thermal mass considerations for barrel, cabin, and room-within-room formats</li>
+          <li>Minimum and recommended insulation values by wall type and climate zone</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <span class="module__num">Module 02</span>
+        <h3>Vapour Barrier Placement</h3>
+        <p class="module__desc">The single most misunderstood element in sauna construction. Placed correctly, it protects the structure for decades. Placed incorrectly, it traps condensation from the first use.</p>
+        <ul class="module__points">
+          <li>Aluminium foil versus polyethylene: selection criteria by application</li>
+          <li>Correct side placement and the thermal logic behind it</li>
+          <li>Joint sealing methods and penetration detailing</li>
+          <li>Illustrated cross-sections showing the most common placement errors</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <span class="module__num">Module 03</span>
+        <h3>Air Gap Rules</h3>
+        <p class="module__desc">The ventilated cavity behind sauna cladding is not an optional detail. This module covers the dimensional requirements and drainage logic that prevent moisture accumulation at the base of the wall.</p>
+        <ul class="module__points">
+          <li>Minimum gap dimensions by cladding species and orientation</li>
+          <li>Top and bottom ventilation opening specifications</li>
+          <li>Junction detailing at floor, ceiling, and corner points</li>
+          <li>What happens when the air gap is omitted or undersized</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <span class="module__num">Module 04</span>
+        <h3>Ventilation System Design</h3>
+        <p class="module__desc">A sauna requires a specific air change logic that differs fundamentally from standard room ventilation. Position and sizing of supply and exhaust openings determines whether the heat column is functional or not.</p>
+        <ul class="module__points">
+          <li>Supply and exhaust positioning relative to the heater</li>
+          <li>Air change rate calculations for rooms of different volumes</li>
+          <li>Natural convection versus mechanical assist: when each applies</li>
+          <li>Common positioning errors and their thermal consequences</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <span class="module__num">Module 05</span>
+        <h3>Heater Sizing Calculation</h3>
+        <p class="module__desc">Heater selection is not a catalogue decision. It is a calculation. This module provides the full methodology for determining correct heater output for any sauna room.</p>
+        <ul class="module__points">
+          <li>Room volume as the base variable — and its limitations alone</li>
+          <li>Correction factors: glass area, exterior walls, insulation quality</li>
+          <li>Electric versus wood-burning: sizing differences and selection criteria</li>
+          <li>Worked examples across standard residential room sizes</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <span class="module__num">Module 06</span>
+        <h3>Bench Ergonomics</h3>
+        <p class="module__desc">Bench design determines the thermal experience. Height, depth, pitch, and inter-bench clearance are precise values in Finnish sauna tradition — and they are grounded in the physics of radiant heat.</p>
+        <ul class="module__points">
+          <li>Upper and lower bench height specifications relative to heater level</li>
+          <li>Bench depth for lying and seated positions</li>
+          <li>Pitch angle and gap spacing for drainage and drying</li>
+          <li>Timber species selection for bench surfaces: thermal conductivity criteria</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <span class="module__num">Module 07</span>
+        <h3>Electrical Safety Basics</h3>
+        <p class="module__desc">The sauna is a high-humidity, high-temperature environment. Electrical installation requirements differ significantly from standard residential work. This module covers the non-negotiable safety criteria.</p>
+        <ul class="module__points">
+          <li>IP-rated equipment requirements by sauna zone (IEC 60364 reference)</li>
+          <li>Minimum cable specifications for sauna environments</li>
+          <li>Heater isolation switch placement and clearance</li>
+          <li>When a certified electrician is legally required — and in which markets</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <span class="module__num">Module 08</span>
+        <h3>Material Selection Guide</h3>
+        <p class="module__desc">Not every timber performs the same in a sauna environment. This module provides a structured guide to material selection for cladding, benches, framing, and floor finishes.</p>
+        <ul class="module__points">
+          <li>Approved cladding species and why resin content matters at 80–100°C</li>
+          <li>Treated versus untreated timber: what is and is not acceptable</li>
+          <li>Floor materials: drainage, slip resistance, and thermal comfort criteria</li>
+          <li>Door glazing specifications and thermal loss implications</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <span class="module__num">Module 09</span>
+        <h3>Indoor vs Outdoor Considerations</h3>
+        <p class="module__desc">An outdoor barrel sauna and an internal room conversion share the same thermal logic but differ in almost every construction detail. This module covers both scenarios with specific guidance for each.</p>
+        <ul class="module__points">
+          <li>Foundation and drainage requirements for outdoor builds</li>
+          <li>Weatherproofing the exterior envelope: material options and detailing</li>
+          <li>Internal conversion: existing structure assessment criteria</li>
+          <li>Planning permission and building regulation considerations by country</li>
+        </ul>
+      </div>
+
+      <div class="module">
+        <span class="module__num">Module 10</span>
+        <h3>Common Mistakes Checklist</h3>
+        <p class="module__desc">A consolidated reference checklist of the 24 most frequently encountered errors in European sauna builds — drawn from real correction projects. Use it to audit a build at any stage.</p>
+        <ul class="module__points">
+          <li>Pre-build planning errors and how to identify them before they are built in</li>
+          <li>Structure-stage errors: what to inspect before the vapour barrier goes on</li>
+          <li>Fit-out stage errors: heater, bench, and ventilation verification points</li>
+          <li>Pre-commissioning checklist: what to confirm before the first heat cycle</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     PREVIEW
+════════════════════════════════════════════════════ -->
+<section class="preview">
+  <div class="wrap--mid">
+    <div class="section-header reveal">
+      <span class="label">Inside the Blueprint</span>
+      <h2 class="heading">See exactly what you're getting.</h2>
+      <span class="rule"></span>
+      <p>No vague summaries. No locked previews. Here is a direct extract from two of the ten modules.</p>
+    </div>
+
+    <div class="preview-grid reveal">
+      <!-- Card 1 — Stage checklist extract -->
+      <div class="preview-card">
+        <div class="preview-card__header">
+          <span class="preview-card__title">Module 02 — Vapour Barrier Placement</span>
+          <span class="preview-card__page">p. 8–9</span>
+        </div>
+        <div class="preview-card__body">
+          <p class="preview-card__module">In Practice — Stage 5</p>
+          <p class="preview-card__heading">Vapour Barrier Installation Sequence</p>
+          <p class="preview-card__text">Begin at the ceiling — lay foil across the full ceiling first and fold edges down walls by 100–150mm. Then wrap walls, overlapping the ceiling fold. Glossy side faces into the room. Seal every joint immediately.</p>
+          <ul class="preview-card__checklist">
+            <li>Ceiling foil installed first; edges folded 100–150mm down walls</li>
+            <li>Wall foil overlaps ceiling fold — no gap at the corner</li>
+            <li>All joints lapped minimum 100mm and taped continuously</li>
+            <li>Every penetration sealed individually</li>
+            <li>Glossy side of foil faces into the room interior</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Card 2 — Materials table extract -->
+      <div class="preview-card">
+        <div class="preview-card__header">
+          <span class="preview-card__title">Appendix A — Reference Materials List</span>
+          <span class="preview-card__page">p. 25–27</span>
+        </div>
+        <div class="preview-card__body">
+          <p class="preview-card__module">Structural Frame — Extract</p>
+          <p class="preview-card__heading">Itemised Quantities for 2×2×2.2m Room</p>
+          <table class="preview-card__table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Pine frame lath 45×45mm</td>
+                <td class="td-val">30 pcs</td>
+                <td>Vertical studs at 500mm centres</td>
+              </tr>
+              <tr>
+                <td>Counter-batten 18×45mm</td>
+                <td class="td-val">36 pcs</td>
+                <td>Air gap / service cavity</td>
+              </tr>
+              <tr>
+                <td>Rock wool 50mm batts</td>
+                <td class="td-val">9.5 m²</td>
+                <td>Wall insulation — full stud depth</td>
+              </tr>
+              <tr>
+                <td>Rock wool 100mm batts</td>
+                <td class="td-val">5.5 m²</td>
+                <td>Ceiling — minimum 100mm</td>
+              </tr>
+              <tr>
+                <td>Aluminium foil 1.25m wide</td>
+                <td class="td-val">30 m²</td>
+                <td>+15% for laps and waste</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <p class="preview__note">Extract from 28-page document. Full materials list covers 8 categories across 3 pages.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     AUDIENCE
+════════════════════════════════════════════════════ -->
+<section class="audience" id="who-its-for">
+  <div class="wrap--mid">
+    <div class="section-header reveal">
+      <span class="label">Intended Use</span>
+      <h2 class="heading">Who This Blueprint Is Built For. And Who It Is Not.</h2>
+      <span class="rule"></span>
+    </div>
+
+    <div class="audience-grid reveal">
+      <div class="audience-col audience-col--yes">
+        <div class="audience-col__header">
+          <span class="indicator indicator--yes"></span>
+          <span class="label">This Blueprint Is For You If —</span>
+        </div>
+        <ul class="audience-list">
+          <li>You are a homeowner in the UK or Europe planning a residential sauna build and want to understand the technical requirements before engaging contractors</li>
+          <li>You are a serious self-builder with construction competence who wants to build correctly from the foundation up — without expensive trial and error</li>
+          <li>You are a contractor or joiner new to sauna work who needs a reliable technical reference for specification and client communication</li>
+          <li>You are a property developer adding a sauna to a wellness-led project and need to brief and supervise a build team competently</li>
+          <li>You are a wellness entrepreneur specifying a commercial sauna installation and require a structured framework for evaluating contractor proposals</li>
+          <li>You are a builder who has completed a sauna project before and encountered problems you could not fully explain — and want to understand why</li>
+        </ul>
+      </div>
+
+      <div class="audience-col audience-col--no">
+        <div class="audience-col__header">
+          <span class="indicator indicator--no"></span>
+          <span class="label">This Blueprint Is Not For You If —</span>
+        </div>
+        <ul class="audience-list">
+          <li>You are looking for an illustrated step-by-step tutorial with no technical depth — this document explains structural reasoning, not just procedure</li>
+          <li>You want a quick weekend project guide. The Blueprint is a planning system; it is designed for builds that are done once and done correctly</li>
+          <li>You expect a licensed structural engineer's stamp or country-specific planning approval — the Blueprint informs your decisions; it does not replace professional certification where legally required</li>
+          <li>You are building in a region with highly specific local code requirements that deviate substantially from European norms — always verify against your local authority</li>
+          <li>You are not willing to read technical material or engage seriously with the specifications provided</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     AUTHORITY
+════════════════════════════════════════════════════ -->
+<section class="authority">
+  <div class="wrap--mid">
+    <div class="section-header reveal">
+      <span class="label">Professional Background</span>
+      <h2 class="heading">This Blueprint was written by people who build saunas. Not people who write about them.</h2>
+      <span class="rule"></span>
+    </div>
+
+    <div class="authority__body reveal">
+      <p>The SaunaAgent™ Blueprint is the product of more than 18 years of active sauna construction experience across the European market. The team behind it has worked on projects ranging from single-room domestic installations in the UK to multi-unit wellness facility developments in Scandinavia, Germany, and the Baltic states.</p>
+      <p>The technical framework in this Blueprint is not assembled from secondary sources. It is derived from <strong>first-hand construction decisions, project failures, project corrections, and the accumulated specification logic</strong> that experienced Nordic sauna builders apply on every project.</p>
+      <p>The Finnish sauna tradition is not a style preference. It is an engineering tradition with a documented body of standards governing thermal performance, structural integrity, and safety. The SaunaAgent™ Blueprint translates that tradition into a format accessible to the broader European and UK construction market — without diluting the technical rigour that makes it reliable.</p>
+    </div>
+
+    <div class="credentials reveal">
+      <div class="cred">
+        <span class="cred__fig">18+</span>
+        <span class="cred__text">Years of active sauna construction experience</span>
+      </div>
+      <div class="cred">
+        <span class="cred__fig">340+</span>
+        <span class="cred__text">Completed sauna builds across Europe</span>
+      </div>
+      <div class="cred">
+        <span class="cred__fig">12</span>
+        <span class="cred__text">Countries with documented project experience</span>
+      </div>
+      <div class="cred">
+        <span class="cred__fig">SFS</span>
+        <span class="cred__text">Finnish Standards applied as the specification baseline</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     ABOUT
+════════════════════════════════════════════════════ -->
+<section class="about" id="about">
+  <div class="wrap--mid">
+    <div class="about__grid reveal">
+      <div class="about__left">
+        <span class="label">About SaunaAgent™</span>
+        <span class="rule"></span>
+        <h2 class="heading">Built by people who have made the mistakes — and corrected them.</h2>
+        <p>SaunaAgent™ was founded by Ricko Tamm, an Estonian builder and project manager with more than 18 years of experience across residential and commercial construction in Northern Europe.</p>
+        <p>The idea for the Blueprint came from a pattern: technically capable people — contractors, developers, self-builders — consistently making the same structural errors on sauna projects, not from lack of skill, but from lack of sauna-specific knowledge. The Finnish tradition has a rigorous engineering logic behind it. That logic simply wasn't accessible outside specialist circles.</p>
+        <p>The SaunaAgent™ Blueprint exists to change that. It is not a theoretical document — it is distilled from first-hand build decisions, real project failures, and the correction work that followed.</p>
+        <a href="mailto:hello@saunaagent.co" class="about__contact">Get in touch → hello@saunaagent.co</a>
+      </div>
+      <div class="about__right">
+        <div class="about__stat-grid">
+          <div class="about__stat">
+            <span class="about__stat-fig">18+</span>
+            <span class="about__stat-label">Years in construction across Northern Europe</span>
+          </div>
+          <div class="about__stat">
+            <span class="about__stat-fig">340+</span>
+            <span class="about__stat-label">Completed sauna builds documented</span>
+          </div>
+          <div class="about__stat">
+            <span class="about__stat-fig">12</span>
+            <span class="about__stat-label">Countries with project experience</span>
+          </div>
+          <div class="about__stat">
+            <span class="about__stat-fig">SFS</span>
+            <span class="about__stat-label">Finnish Standards as the specification baseline</span>
+          </div>
+        </div>
+        <div class="about__values">
+          <div class="about__value">
+            <span class="about__value-label">What we are</span>
+            <p>A technical resource for people who want to build a sauna correctly — not approximately.</p>
+          </div>
+          <div class="about__value">
+            <span class="about__value-label">What we are not</span>
+            <p>A design brand, a supplier, or a contractor. We sell knowledge, not products or services.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     TESTIMONIALS
+════════════════════════════════════════════════════ -->
+<section class="testimonials">
+  <div class="wrap--mid">
+    <div class="section-header reveal">
+      <span class="label">What Builders Say</span>
+      <h2 class="heading" style="color:var(--birch)">Used on real builds. Trusted by professionals.</h2>
+      <span class="rule"></span>
+    </div>
+
+    <div class="testimonials-grid reveal">
+      <div class="testimonial-card">
+        <div class="testimonial-card__stars">★★★★★</div>
+        <p class="testimonial-card__quote">The vapour barrier module alone saved us from a rebuild. Our contractor had it on the wrong side — we caught it before the cladding went on. The Blueprint paid for itself in the first hour.</p>
+        <div class="testimonial-card__meta">
+          <span class="testimonial-card__name">James R.</span>
+          <span class="testimonial-card__role">Homeowner, outdoor sauna build — Surrey, UK</span>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-card__stars">★★★★★</div>
+        <p class="testimonial-card__quote">I've been building saunas for six years and still found things in here I'd been doing slightly wrong. The heater sizing methodology in particular — I'd always estimated. The correction factor table changed how I quote now.</p>
+        <div class="testimonial-card__meta">
+          <span class="testimonial-card__name">Mikael T.</span>
+          <span class="testimonial-card__role">Sauna contractor — Helsinki, Finland</span>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-card__stars">★★★★★</div>
+        <p class="testimonial-card__quote">We used it to brief our build team before a wellness project in Berlin. Reduced the back-and-forth on specifications significantly. Worth it as a project management tool alone, before you even get to the technical detail.</p>
+        <div class="testimonial-card__meta">
+          <span class="testimonial-card__name">Lena W.</span>
+          <span class="testimonial-card__role">Property developer — Berlin, Germany</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     PRICING
+════════════════════════════════════════════════════ -->
+<section class="pricing" id="pricing">
+  <div class="wrap--mid">
+    <div class="section-header reveal">
+      <span class="label">Investment</span>
+      <h2 class="heading">Consider what a single corrected mistake costs. Then consider what prevention costs.</h2>
+      <span class="rule"></span>
+      <p>A single day of specialist remediation work in Northern Europe costs between €650 and €950. A moisture rebuild averages €4,200. A heater replacement runs €1,400 to €2,400. These are not hypothetical figures — they are the documented costs of preventable planning errors.</p>
+    </div>
+
+    <div class="pricing__comparison reveal">
+      <div class="price-col">
+        <span class="price-col__tag tag--bad">Typical Error Cost</span>
+        <span class="price-col__scenario">Cost of one moisture rebuild</span>
+        <span class="price-col__amount amount--bad">€4,200</span>
+        <p class="price-col__desc">Average cost to strip, replace insulation and vapour barrier, and re-clad a 6m² sauna room after moisture damage from an incorrectly placed vapour barrier. Labour not included.</p>
+      </div>
+
+      <div class="price-col price-col--featured">
+        <span class="price-col__tag tag--option">SaunaAgent™ Blueprint</span>
+        <span class="price-col__scenario">Complete planning system</span>
+        <span class="price-col__amount amount--featured">€97</span>
+        <p class="price-col__desc">10 technical modules. Heater sizing calculations. Vapour barrier logic. Ventilation design. Electrical safety reference. Material selection guide. Common mistakes checklist. One document. One decision.</p>
+      </div>
+
+      <div class="price-col">
+        <span class="price-col__tag tag--good">Alternative: Hire a Consultant</span>
+        <span class="price-col__scenario">Per-day specialist rate</span>
+        <span class="price-col__amount amount--good">€800</span>
+        <p class="price-col__desc">Day rate for an experienced Nordic sauna consultant to review your plans and specifications. Appropriate for complex commercial projects. For a single domestic build, the Blueprint covers the same technical ground.</p>
+      </div>
+    </div>
+
+    <div class="pricing__note reveal">
+      <strong style="font-family:'Playfair Display',serif; font-weight:600; display:block; margin-bottom:0.5rem;">One-time purchase. Permanent access. No subscription.</strong>
+      The Blueprint is a document product. You purchase it once and retain access to the current version and all future revisions. There are no upsells, no locked modules, and no tiered access. The complete technical content is included in the standard purchase.
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     GUARANTEE
+════════════════════════════════════════════════════ -->
+<div class="guarantee">
+  <div class="guarantee__inner">
+    <div class="guarantee__badge">
+      <span class="guarantee__badge-days">14</span>
+      <span class="guarantee__badge-label">Day<br>Refund</span>
+    </div>
+    <div class="guarantee__text">
+      <h3>No-risk purchase. 14-day refund policy.</h3>
+      <p>If the Blueprint is not what you need, email <strong style="color:rgba(245,239,228,0.75)">hello@saunaagent.co</strong> within 14 days of purchase and we will refund you in full — no questions asked. We are confident in the quality of this document. You should be too before you commit.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     CTA
+════════════════════════════════════════════════════ -->
+<section class="cta-section" id="get-blueprint">
+  <div class="wrap--narrow cta-section__inner">
+    <span class="label">Get the Blueprint</span>
+    <h2 class="display">Start Your Build With the Right Framework.</h2>
+    <p>Download the SaunaAgent™ Blueprint today. Plan your build with the technical rigour of a professional Nordic sauna engineer — from the first structural decision to the final pre-commissioning check.</p>
+    <p style="font-family:'Syne',sans-serif; font-size:0.78rem; letter-spacing:0.04em; color:rgba(245,239,228,0.5); margin-top:-0.5rem;">Not a builder? The Blueprint is designed to be understood by anyone managing a sauna project — homeowners, developers, and project managers included.</p>
+    <a href="#get-blueprint" class="btn btn--primary" target="_blank">Download the SaunaAgent™ Blueprint — €97</a>
+    <div class="cta-meta">
+      <span>Instant PDF Download</span>
+      <span class="cta-meta-dot"></span>
+      <span>14-Day Refund Policy</span>
+      <span class="cta-meta-dot"></span>
+      <span>Secure Checkout</span>
+      <span class="cta-meta-dot"></span>
+      <span>All Future Revisions Included</span>
+      <span class="cta-meta-dot"></span>
+      <span>No Subscription</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     FAQ
+════════════════════════════════════════════════════ -->
+<section class="faq" id="faq">
+  <div class="wrap--narrow">
+    <div class="section-header reveal">
+      <span class="label">Common Questions</span>
+      <h2 class="heading">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="faq-list reveal">
+
+      <div class="faq-item">
+        <p class="faq-item__q">Is this Blueprint suitable for someone with no prior sauna construction experience?</p>
+        <p class="faq-item__a">Yes, provided you have a baseline level of construction competence. The Blueprint assumes you understand how a building is put together — stud walls, insulation layers, basic electrical principles. It does not assume prior sauna knowledge. Each module explains the technical reasoning behind the specification, so you can follow the logic even if you are encountering these concepts for the first time. If you have no construction background at all, the Blueprint is better used as a tool for briefing and managing contractors than as a hands-on build guide.</p>
+      </div>
+
+      <div class="faq-item">
+        <p class="faq-item__q">Does the Blueprint cover both indoor and outdoor sauna builds?</p>
+        <p class="faq-item__a">Yes. Module 09 is dedicated to the distinction between indoor conversions and outdoor new-build scenarios, covering the specific structural, drainage, weatherproofing, and planning considerations for each. The core technical modules — insulation, vapour barrier, ventilation, heater sizing — apply to both contexts, with scenario-specific guidance noted where the approach diverges.</p>
+      </div>
+
+      <div class="faq-item">
+        <p class="faq-item__q">Is the Blueprint specific to any country's building regulations?</p>
+        <p class="faq-item__a">The Blueprint is based on Finnish building standards (SFS) and Nordic construction logic, which form the most rigorous and widely referenced baseline for sauna construction in Europe. The technical specifications apply broadly across the UK and EU market. However, local building regulations vary. For projects requiring planning permission or building control sign-off, you should always verify the specifications against your local authority's requirements. Module 09 includes a general reference to planning and regulation considerations by region, but the Blueprint does not constitute a legally compliant specification document for any specific jurisdiction.</p>
+      </div>
+
+      <div class="faq-item">
+        <p class="faq-item__q">Can contractors and developers use this Blueprint commercially?</p>
+        <p class="faq-item__a">Yes. The Blueprint is designed for use by construction professionals as well as informed owner-builders. Contractors use it as a specification reference and client communication tool. Developers use it to brief build teams and evaluate contractor proposals. The licence included with purchase covers personal and professional use for the individual purchaser. If your organisation requires multi-seat or team licensing, contact us directly before purchase.</p>
+      </div>
+
+      <div class="faq-item">
+        <p class="faq-item__q">What format is the Blueprint delivered in, and how do I access it?</p>
+        <p class="faq-item__a">The Blueprint is delivered as a PDF document with accompanying reference sheets. Upon completing your purchase, you will receive an immediate download link and a confirmation email with a permanent access link. The PDF is formatted for both screen reading and high-quality print. There are no apps, logins, or subscriptions required. All future revisions to the Blueprint are included with your purchase and will be delivered via the same access link.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     EMAIL CAPTURE
+════════════════════════════════════════════════════ -->
+<section class="email-capture">
+  <div class="wrap--narrow">
+    <div class="email-capture__inner reveal">
+      <span class="label">Free Download</span>
+      <span class="rule rule--center"></span>
+      <h2 class="heading">Get the free Sauna Build Checklist.</h2>
+      <p>24 mistakes to avoid before you start — the same framework used on professional sauna builds across Europe. PDF, instant delivery, no spam.</p>
+      <div class="email-capture__form">
+        <script async data-uid="2b8aecc01f" src="https://saunaagent.kit.com/2b8aecc01f/index.js"></script>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     FEATURED ARTICLE
+════════════════════════════════════════════════════ -->
+<section class="featured-article">
+  <div class="wrap--mid">
+    <div class="featured-article__inner reveal">
+      <div class="featured-article__left">
+        <span class="label">Not Ready to Buy Yet?</span>
+        <span class="rule"></span>
+        <h2 class="heading">Start with the most common €4,200 mistake in European sauna builds.</h2>
+        <p>The vapour barrier goes on the warm side. Without exception. This free article explains the physics, the failure mode, and how to seal it correctly — drawn directly from Module 02 of the Blueprint.</p>
+        <a href="/blog/sauna-vapour-barrier" class="featured-article__link">Read the article →</a>
+      </div>
+      <div class="featured-article__right">
+        <div class="featured-article__card">
+          <div class="featured-article__card-tag">Free Article</div>
+          <p class="featured-article__card-title">Finnish Sauna Vapour Barrier — The One Rule That Cannot Be Broken</p>
+          <ul class="featured-article__card-list">
+            <li>Why warm-side placement is non-negotiable</li>
+            <li>What happens when it goes on the cold side</li>
+            <li>How to seal joints to a professional standard</li>
+            <li>The 4 penetration points that get missed</li>
+          </ul>
+          <span class="featured-article__card-module">From the SaunaAgent™ Blog · 6 min read</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     MOBILE STICKY BUY BAR
+════════════════════════════════════════════════════ -->
+<div class="sticky-buy" id="sticky-buy">
+  <span class="sticky-buy__text">SaunaAgent™ Blueprint</span>
+  <a href="#get-blueprint" class="sticky-buy__btn" target="_blank">Get the Blueprint — €97</a>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer__inner">
+    <span class="footer__brand">SaunaAgent™ — Professional Blueprint Series</span>
+    <span class="footer__copy">© 2025 SaunaAgent™. All rights reserved. Finnish Standards. European Market.</span>
+    <div class="footer__links">
+      <a href="/terms" class="footer__link">Terms &amp; Conditions</a>
+      <a href="/privacy" class="footer__link">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+<script>
+  // Intersection Observer for scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        entry.target.style.transitionDelay = '0s';
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+<script>
+  // ── NAV SCROLL BEHAVIOUR ──────────────────────────
+  const nav = document.getElementById('site-nav');
+  const stickyBuy = document.getElementById('sticky-buy');
+  const ctaSection = document.getElementById('get-blueprint');
+
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+    // Hide sticky bar when CTA section is in view
+    if (stickyBuy && ctaSection) {
+      const rect = ctaSection.getBoundingClientRect();
+      stickyBuy.style.opacity = (rect.top < window.innerHeight && rect.bottom > 0) ? '0' : '1';
+      stickyBuy.style.pointerEvents = (rect.top < window.innerHeight && rect.bottom > 0) ? 'none' : 'auto';
+    }
+  }, { passive: true });
+
+  // ── HAMBURGER ─────────────────────────────────────
+  const hamburger = document.getElementById('hamburger');
+  const drawer    = document.getElementById('nav-drawer');
+
+  hamburger.addEventListener('click', () => {
+    const open = drawer.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', open);
+  });
+
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    hamburger.classList.remove('open');
+  }
+
+  // Close drawer on outside click
+  document.addEventListener('click', (e) => {
+    if (!nav.contains(e.target) && !drawer.contains(e.target)) closeDrawer();
+  });
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const href = a.getAttribute('href');
+      if (href === '#') return;
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        const offset = 68;
+        const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

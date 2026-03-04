@@ -2937,6 +2937,142 @@
     });
   });
 </script>
+<!-- ════════════════════════════════════════════════════
+     EXIT-INTENT POPUP
+════════════════════════════════════════════════════ -->
+<div id="exit-popup" style="
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(22,20,16,0.82);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+">
+  <div style="
+    background: var(--steam);
+    max-width: 520px;
+    width: 100%;
+    padding: 3rem 3rem 3.5rem;
+    position: relative;
+  ">
 
+    <!-- Close button -->
+    <button
+      onclick="closeExitPopup()"
+      style="
+        position: absolute;
+        top: 1.25rem;
+        right: 1.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.1rem;
+        color: var(--ash);
+        line-height: 1;
+        font-family: 'Syne', sans-serif;
+      "
+    >✕</button>
+
+    <!-- Label -->
+    <span style="
+      font-family: 'Syne', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ember);
+      display: block;
+      margin-bottom: 0.75rem;
+    ">Before You Go</span>
+
+    <!-- Rule -->
+    <span style="
+      display: block;
+      width: 3.5rem;
+      height: 1.5px;
+      background: var(--ember);
+      margin-bottom: 1.5rem;
+    "></span>
+
+    <!-- Headline -->
+    <h2 style="
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.75rem;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 0.85rem;
+    ">Avoid the 3 most expensive sauna build mistakes.</h2>
+
+    <!-- Subtext -->
+    <p style="
+      font-family: 'Newsreader', serif;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    ">Get the free 24-point Sauna Build Checklist — the same framework used on professional builds across Europe. PDF, instant delivery, no spam.</p>
+
+    <!-- Kit form -->
+    <div id="exit-kit-form">
+      <script async data-uid="2b8aecc01f" src="https://saunaagent.kit.com/2b8aecc01f/index.js"></script>
+    </div>
+
+    <!-- No thanks -->
+    <p style="
+      text-align: center;
+      margin-top: 1.25rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    ">
+      <a onclick="closeExitPopup()" style="cursor:pointer; text-decoration:underline;">
+        No thanks, I'll figure it out myself
+      </a>
+    </p>
+
+  </div>
+</div>
+
+<script>
+  (function() {
+    // Don't show if already seen in last 7 days
+    var lastSeen = localStorage.getItem('exit_popup_seen');
+    if (lastSeen && (Date.now() - parseInt(lastSeen)) < 7 * 24 * 60 * 60 * 1000) return;
+
+    var triggered = false;
+
+    document.addEventListener('mouseleave', function(e) {
+      // Only trigger when cursor moves toward top of browser (exit intent)
+      if (e.clientY > 20) return;
+      if (triggered) return;
+
+      triggered = true;
+      localStorage.setItem('exit_popup_seen', Date.now().toString());
+
+      var popup = document.getElementById('exit-popup');
+      popup.style.display = 'flex';
+    });
+
+    // Also close on overlay click
+    document.getElementById('exit-popup').addEventListener('click', function(e) {
+      if (e.target === this) closeExitPopup();
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeExitPopup();
+    });
+  })();
+
+  function closeExitPopup() {
+    document.getElementById('exit-popup').style.display = 'none';
+  }
+</script>
 </body>
 </html>

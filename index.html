@@ -2768,19 +2768,57 @@
 <!-- ════════════════════════════════════════════════════
      EMAIL CAPTURE
 ════════════════════════════════════════════════════ -->
-<section class="email-capture">
-  <div class="wrap--narrow">
-    <div class="email-capture__inner reveal">
-      <span class="label">Free Download</span>
-      <span class="rule rule--center"></span>
-      <h2 class="heading">Get the free Sauna Build Checklist.</h2>
-      <p>24 mistakes to avoid before you start — the same framework used on professional sauna builds across Europe. PDF, instant delivery, no spam.</p>
-      <div class="email-capture__form">
-        <script async data-uid="2b8aecc01f" src="https://saunaagent.kit.com/2b8aecc01f/index.js"></script>
-      </div>
-    </div>
+<!-- TWO-STEP BUTTON -->
+<div class="email-capture__form">
+
+  <!-- Step 1: Button (shown by default) -->
+  <button
+    id="checklist-btn"
+    onclick="showChecklistForm()"
+    style="
+      background: var(--ember);
+      color: #F0E8D8;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: none;
+      padding: 1.05rem 2.6rem;
+      width: 100%;
+      max-width: 480px;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: block;
+      margin: 0 auto;
+    "
+    onmouseover="this.style.background='var(--ember-dk)'"
+    onmouseout="this.style.background='var(--ember)'"
+  >
+    Send Me the Free Checklist
+  </button>
+
+  <!-- Step 2: Kit form (hidden by default) -->
+  <div id="checklist-form-reveal" style="
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.4s ease, max-height 0.5s ease;
+  ">
+    <script async data-uid="2b8aecc01f" src="https://saunaagent.kit.com/2b8aecc01f/index.js"></script>
+</div>!-- YOUR EXISTING KIT EMBED GOES HERE — paste it inside this div -->
   </div>
-</section>
+
+</div>
+
+<script>
+  function showChecklistForm() {
+    document.getElementById('checklist-btn').style.display = 'none';
+    var form = document.getElementById('checklist-form-reveal');
+    form.style.maxHeight = '400px';
+    form.style.opacity = '1';
+  }
+</script>
 
 <!-- ════════════════════════════════════════════════════
      FEATURED ARTICLE

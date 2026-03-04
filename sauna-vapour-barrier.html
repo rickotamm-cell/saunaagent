@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finnish Sauna Vapour Barrier — The One Rule That Cannot Be Broken | SaunaAgent™</title>
+<meta name="description" content="The vapour barrier goes on the warm side. Without exception. This article explains the physics, the failure mode, and how to seal it correctly.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Syne:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #161410; --birch: #F5EFE4; --birch-mid: #EDE4D4;
+    --ash: #9E9186; --ember: #C4521A; --ember-dk: #A34010;
+    --steam: #F9F5EF; --rule: rgba(22,20,16,0.1);
+    --text-body: #2E2A25; --text-muted: #7A7168;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--steam); color: var(--text-body); font-family: 'Newsreader', Georgia, serif; font-size: 18px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+
+  /* NAV */
+  .nav { background: var(--ink); padding: 1.1rem 0; position: sticky; top: 0; z-index: 100; }
+  .nav__inner { max-width: 860px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; }
+  .nav__brand { font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--birch); text-decoration: none; }
+  .nav__links { display: flex; align-items: center; gap: 1.5rem; }
+  .nav__link { font-family: 'Syne', sans-serif; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,239,228,0.45); text-decoration: none; transition: color 0.2s; }
+  .nav__link:hover { color: var(--birch); }
+  .nav__cta { background: var(--ember); color: var(--birch) !important; padding: 0.45rem 0.9rem; border-radius: 2px; transition: background 0.2s; }
+  .nav__cta:hover { background: var(--ember-dk) !important; }
+
+  /* ARTICLE HEADER */
+  .article-header { background: var(--ink); padding: 5rem 0 4rem; border-bottom: 3px solid var(--ember); }
+  .article-header__inner { max-width: 760px; margin: 0 auto; padding: 0 2rem; }
+  .article-header__meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .article-header__tag { font-family: 'Syne', sans-serif; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ember); }
+  .article-header__dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(245,239,228,0.2); }
+  .article-header__date { font-family: 'Syne', sans-serif; font-size: 0.62rem; letter-spacing: 0.08em; color: rgba(245,239,228,0.3); }
+  .article-header__read { font-family: 'Syne', sans-serif; font-size: 0.62rem; letter-spacing: 0.08em; color: rgba(245,239,228,0.3); }
+  .article-header__title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; color: var(--birch); line-height: 1.12; margin-bottom: 1.25rem; }
+  .article-header__intro { font-size: 1.05rem; line-height: 1.72; color: rgba(245,239,228,0.6); max-width: 600px; }
+
+  /* ARTICLE BODY */
+  .article-body { max-width: 760px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+  .article-body h2 { font-family: 'Playfair Display', serif; font-size: 1.65rem; font-weight: 700; color: var(--ink); margin: 3.5rem 0 1rem; line-height: 1.2; }
+  .article-body h3 { font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ember); margin: 2.5rem 0 0.75rem; }
+  .article-body p { margin-bottom: 1.25rem; color: var(--text-body); }
+  .article-body strong { font-weight: 600; color: var(--ink); }
+  .article-body ul, .article-body ol { margin: 0.75rem 0 1.25rem 1.5rem; }
+  .article-body li { margin-bottom: 0.5rem; line-height: 1.7; }
+  .article-body a { color: var(--ember); text-decoration: underline; text-underline-offset: 3px; }
+
+  .callout { background: var(--birch-mid); border-left: 3px solid var(--ember); padding: 1.25rem 1.5rem; margin: 2rem 0; font-size: 0.96rem; line-height: 1.7; }
+  .callout strong { color: var(--ink); }
+
+  .rule-block { display: block; width: 3rem; height: 2px; background: var(--ember); margin: 2.5rem 0; }
+
+  .cost-callout { background: var(--ink); color: var(--birch); padding: 1.75rem 2rem; margin: 2.5rem 0; display: flex; align-items: center; gap: 2rem; }
+  .cost-callout__fig { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: var(--ember); line-height: 1; flex-shrink: 0; }
+  .cost-callout__text { font-size: 0.9rem; line-height: 1.65; color: rgba(245,239,228,0.65); }
+  .cost-callout__text strong { color: var(--birch); }
+
+  /* CTA BOX */
+  .article-cta { background: var(--ink); padding: 2.5rem; margin: 4rem 0 0; text-align: center; }
+  .article-cta__label { font-family: 'Syne', sans-serif; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ember); display: block; margin-bottom: 0.75rem; }
+  .article-cta__title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--birch); margin-bottom: 0.75rem; line-height: 1.2; }
+  .article-cta__text { font-size: 0.9rem; color: rgba(245,239,228,0.55); margin-bottom: 1.5rem; line-height: 1.65; max-width: 460px; margin-left: auto; margin-right: auto; }
+  .article-cta__btn { display: inline-block; background: var(--ember); color: var(--birch); font-family: 'Syne', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.85rem 1.75rem; text-decoration: none; border-radius: 2px; transition: background 0.2s; }
+  .article-cta__btn:hover { background: var(--ember-dk); color: var(--birch); }
+  .article-cta__note { font-family: 'Syne', sans-serif; font-size: 0.62rem; color: rgba(245,239,228,0.25); letter-spacing: 0.06em; margin-top: 0.75rem; display: block; }
+
+  /* FOOTER */
+  .footer { background: var(--ink); padding: 2.5rem 0; margin-top: 0; }
+  .footer__inner { max-width: 860px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .footer__brand { font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(240,232,216,0.4); }
+  .footer__links { display: flex; gap: 1.5rem; }
+  .footer__link { font-family: 'Syne', sans-serif; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,232,216,0.3); text-decoration: none; transition: color 0.2s; }
+  .footer__link:hover { color: var(--ember); }
+
+  @media (max-width: 600px) {
+    .article-header { padding: 3rem 0 2.5rem; }
+    .nav__links .nav__link:not(.nav__cta) { display: none; }
+    .cost-callout { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="/" class="nav__brand">SaunaAgent™</a>
+    <div class="nav__links">
+      <a href="/blog" class="nav__link">← All Articles</a>
+      <a href="/#get-blueprint" class="nav__link nav__cta">Get the Blueprint — €97</a>
+    </div>
+  </div>
+</nav>
+
+<header class="article-header">
+  <div class="article-header__inner">
+    <div class="article-header__meta">
+      <span class="article-header__tag">Structure</span>
+      <span class="article-header__dot"></span>
+      <span class="article-header__date">March 2025</span>
+      <span class="article-header__dot"></span>
+      <span class="article-header__read">7 min read</span>
+    </div>
+    <h1 class="article-header__title">Finnish Sauna Vapour Barrier —<br>The One Rule That Cannot Be Broken</h1>
+    <p class="article-header__intro">The vapour barrier goes on the warm side. Without exception. This article explains the physics of why, what happens when it is placed incorrectly, and how to seal it to a professional standard.</p>
+  </div>
+</header>
+
+<article class="article-body">
+
+  <p>Of the 24 structural mistakes documented in the SaunaAgent™ Blueprint, one accounts for more remediation work than all others combined: the vapour barrier placed on the wrong side of the wall assembly. It is not a subtle error. The consequences are severe, the correction is expensive, and the logic behind the correct approach is straightforward once you understand the physics.</p>
+
+  <p>This article covers that physics, the failure mechanism, and the installation sequence that prevents it.</p>
+
+  <span class="rule-block"></span>
+
+  <h2>Why Moisture Moves Through a Sauna Wall</h2>
+
+  <p>A sauna in operation produces large quantities of warm, humid air. When you throw water onto the kiuas stones — the practice known as löyly — you are instantly generating steam that saturates the room. Interior temperatures sit between 80°C and 95°C. Relative humidity can reach 60–80% during a session.</p>
+
+  <p>That warm, moist air is under pressure relative to the cooler, drier air outside. Physics dictates that it will migrate outward — through the cladding, through any gap, through the wall assembly — seeking equilibrium. It cannot be stopped. It can only be managed.</p>
+
+  <p>As it moves outward, the air cools. As it cools, it reaches its dew point — the temperature at which water vapour condenses into liquid water. If that condensation happens inside the wall cavity, inside the insulation, or against the structural frame, you have a moisture problem. The only question is how fast it destroys the assembly.</p>
+
+  <div class="callout">
+    <strong>The principle:</strong> A vapour barrier is not designed to stop all moisture movement. It is designed to ensure that condensation — when it inevitably occurs — happens on the exterior face of the barrier, not within the wall structure behind it.
+  </div>
+
+  <h2>Warm Side. Always.</h2>
+
+  <p>The barrier must be placed on the warm side of the insulation — between the insulation and the interior air gap. This means the sequence from interior to exterior is:</p>
+
+  <ol>
+    <li>Interior cladding (T&amp;G aspen or abachi)</li>
+    <li>Air gap — minimum 20mm counter-batten cavity</li>
+    <li><strong>Vapour barrier — aluminium foil-backed membrane</strong></li>
+    <li>Insulation — rock wool, 50mm walls / 100mm ceiling</li>
+    <li>Structural frame</li>
+    <li>Exterior cladding or weatherproofing</li>
+  </ol>
+
+  <p>The barrier sits directly behind the air gap, on the warm side of the insulation. Warm moist air from the room hits the barrier and cannot penetrate further into the assembly. Any condensation that forms does so on the exterior face of the barrier — where it can dry harmlessly back into the room air, or drain down and away from the structure.</p>
+
+  <h2>What Happens When It Goes on the Cold Side</h2>
+
+  <p>When the barrier is installed on the wrong side — between the insulation and the external sheathing — the warm humid air migrates freely through the entire insulation layer before it hits the barrier. It reaches its dew point inside the insulation. Condensation forms within the rock wool itself, and against the structural frame.</p>
+
+  <div class="cost-callout">
+    <span class="cost-callout__fig">€3,800–6,200</span>
+    <span class="cost-callout__text"><strong>Typical cost of a full internal moisture rebuild.</strong> Strip cladding, remove and dispose of saturated insulation, replace vapour barrier correctly, re-insulate, re-clad. Labour is additional. Average timeline: 14–22 weeks from discovery to completion.</span>
+  </div>
+
+  <p>This damage is invisible. The cladding looks normal. The sauna functions — it heats, it produces löyly. For 18 to 36 months, nothing appears wrong. Then the cladding starts to discolour. Then it warps. Then, when the boards are removed, the insulation behind is black. The frame is compromised. A full internal rebuild is the only option.</p>
+
+  <p>This is not a worst-case scenario. It is the standard outcome of a vapour barrier placed on the wrong side, given enough time.</p>
+
+  <h2>The Correct Installation Sequence</h2>
+
+  <h3>Material Selection</h3>
+  <p>Standard polythene sheeting is not appropriate for sauna use. The barrier must be an aluminium foil-backed membrane rated for high-temperature environments. The foil layer provides a genuine vapour check; the backing provides structural integrity for taping and handling. Cheaper membranes degrade at sauna temperatures and lose their vapour resistance over time.</p>
+
+  <h3>Ceiling First</h3>
+  <p>Begin with the ceiling. Lay the foil membrane across the full ceiling surface, with edges folded down the walls by 100–150mm. This fold is critical — it ensures continuity between the ceiling and wall barrier without a gap at the most vulnerable junction.</p>
+
+  <h3>Walls Next</h3>
+  <p>Install wall foil after the ceiling, overlapping the ceiling fold. The wall foil should lap over the ceiling edge, not butt up against it. Glossy side faces into the room throughout.</p>
+
+  <h3>Seal Every Joint Immediately</h3>
+  <p>All laps must be minimum 100mm and sealed immediately with aluminium foil tape — not standard duct tape, not masking tape. The tape must be the same material as the barrier. Apply it continuously along the full length of every lap, with firm pressure. Do not leave unsealed joints overnight.</p>
+
+  <h3>The Four Penetrations That Get Missed</h3>
+
+  <div class="callout">
+    Every point where something passes through the vapour barrier is a potential failure. These four are the most commonly missed on site:
+    <ol style="margin-top: 0.75rem;">
+      <li><strong>Electrical cables</strong> — each cable must pass through a proprietary grommet or be sealed with collar tape individually. Do not cut a slit and tape over it.</li>
+      <li><strong>Heater backplate fixings</strong> — the mounting bracket for the kiuas penetrates the barrier. Seal around the bracket plate perimeter with foil tape before the heater is hung.</li>
+      <li><strong>Thermometer sensor cables</strong> — small diameter, easily missed. Seal each one.</li>
+      <li><strong>Ventilation duct penetrations</strong> — the supply and exhaust openings require rigid collar seals, not flexible tape alone. The duct will move thermally; the seal must accommodate that movement.</li>
+    </ol>
+  </div>
+
+  <h2>The Inspection Rule</h2>
+  <p>Before any cladding is installed, the entire barrier surface should be inspected by torch light from inside the room with the exterior darkened. Any pinhole, unsealed lap, or missed penetration will be visible as a point of light. This takes twenty minutes and costs nothing. Skipping it costs considerably more.</p>
+
+  <p>The barrier is the most critical single component in a sauna's long-term performance. It cannot be inspected or corrected after the cladding goes on. Treat it accordingly.</p>
+
+  <span class="rule-block"></span>
+
+  <p>The full vapour barrier specification — including material grades, tape specifications, penetration collar details, and stage-by-stage installation notes — is covered in Module 02 of the SaunaAgent™ Blueprint.</p>
+
+  <div class="article-cta">
+    <span class="article-cta__label">SaunaAgent™ Blueprint</span>
+    <h3 class="article-cta__title">The complete technical specification for your sauna build.</h3>
+    <p class="article-cta__text">10 modules. Heater sizing calculations. Vapour barrier logic. Ventilation design. Material selection guide. 28 pages, Finnish SFS standards. One purchase, permanent access.</p>
+    <a href="/#get-blueprint" class="article-cta__btn">Get the Blueprint — €97</a>
+    <span class="article-cta__note">Instant PDF download · 14-day refund policy · No subscription</span>
+  </div>
+
+</article>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <span class="footer__brand">SaunaAgent™ — Professional Blueprint Series</span>
+    <div class="footer__links">
+      <a href="/terms" class="footer__link">Terms</a>
+      <a href="/privacy" class="footer__link">Privacy</a>
+      <a href="/blog" class="footer__link">Blog</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
